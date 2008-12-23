@@ -7,7 +7,7 @@ rspec, rspec-rails, cucumber, aasm, thoughtbot-factory_girl
 
 *If you already have an old ontheboard directory .... remove it* 
     
-   rm -rf ontheboard/
+   `rm -rf ontheboard/`
 
 
 *Also, delete the repository from your github account.*
