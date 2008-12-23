@@ -1,9 +1,19 @@
 **make sure that you have these gems**
 
-you can see all of your gems by running: gem list
+you can see all of your gems by running: 
+	gem list
 
 rspec, rspec-rails, cucumber, aasm, thoughtbot-factory_girl 
 
+**To install factory girl run this**
+	gem install thoughtbot-factory_girl --source=http://gems.github.com
+
+**To install aasm**
+	gem sources -a http://gems.github.com
+	gem install rubyist-aasm
+
+**To install the rest run this**
+	gem install rspec rspec-rails cucumber 
 
 **If you already have an old ontheboard directory .... remove it** 
     
