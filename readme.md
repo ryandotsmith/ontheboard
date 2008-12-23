@@ -1,10 +1,12 @@
 **make sure that you have these gems**
 
+	rspec, rspec-rails, cucumber, aasm, thoughtbot-factory_girl 
+
 you can see all of your gems by running: 
 	
 	gem list
 
-rspec, rspec-rails, cucumber, aasm, thoughtbot-factory_girl 
+
 
 **To install factory girl run this**
 	
@@ -37,7 +39,7 @@ rspec, rspec-rails, cucumber, aasm, thoughtbot-factory_girl
 
 **Pull up a git bash and cd into a directory where you save your code**
 
-	git clone git@github.com:_YourAccountName_/ontheboard.git
+	git clone git@github.com:YourAccountName/ontheboard.git
 	
 	cd ontheboard 
 	
@@ -46,6 +48,8 @@ rspec, rspec-rails, cucumber, aasm, thoughtbot-factory_girl
 	git submodule init
 	
 	git submodule update
+	
+	rake db:drop:all
 	
 	rake db:create:all
 	
