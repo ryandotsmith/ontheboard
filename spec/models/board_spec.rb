@@ -16,16 +16,20 @@ describe Board do
 end
 
 describe "Creating a public board" do
+  before(:each)do
+    @guest  = Factory( :user, :name => "Jim Whiteknuckle" )
+    @owner  = Factory( :user, :name => "Ron Arbuckle")
+    @board  = Factory( :board, :user_id => @owner.id   ) 
+  end
   it "should add the creating user as an owner of the board." do
-    user  = Factory( :user, :name => "Ron Arbuckle")
-    board = Factory( :board, :user_id => user.id   ) 
-    board.is_writeable_by( user ).should eql( false )
-    board.make_owner!( user )
-    board.is_writeable_by( user ).should eql( true )
-
+    @board.is_writeable_by( @owner ).should eql( false )
+    @board.make_owner!( @owner )
+    @board.is_writeable_by( @owner ).should eql( true )
   end
   
-  it "should deny any other user write access to the board."
+  it "should deny any other user write access to the board." do
+    @board.is_writeable_by( @guest ).should eql( false )
+  end
   
 end
 

@@ -1,7 +1,7 @@
 Factory.define :user do |u|
   u.name 'Todd Billings'
   u.email {|a| "#{a.name}@ebay.com".downcase.delete " " }
-  u.login 'toddy'
+  u.login {|l| "#{l.name}".downcase.delete " "}
   u.password 'monkey'
   u.password_confirmation 'monkey'
   u.activated_at '2008-11-22 12:13:59'
