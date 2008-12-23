@@ -12,9 +12,9 @@ rspec, rspec-rails, cucumber, aasm, thoughtbot-factory_girl
 
 *Also, delete the repository from your github account.*
 
-    Your github account -> Your Repositories -> ontheboard -> 
+    `Your github account -> Your Repositories -> ontheboard -> 
 
-    edit -> delete this repository (located towards bottom of page) 
+    edit -> delete this repository (located towards bottom of page)`` 
 
 
 *Fork my new repository* 
@@ -24,7 +24,7 @@ rspec, rspec-rails, cucumber, aasm, thoughtbot-factory_girl
 
 *Pull up a git bash and cd into a directory where you save your code*
 
-git clone git@github.com:_YourAccountName_/ontheboard.git 
+`git clone git@github.com:_YourAccountName_/ontheboard.git
 
 cd ontheboard 
 
@@ -40,7 +40,7 @@ rake db:migrate
 
 rake db:test:prepare
 
-rake spec
+rake spec`
 
 *you should have seen a bunch (266) of tests pass!*
 
