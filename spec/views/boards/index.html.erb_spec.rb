@@ -19,7 +19,7 @@ describe "/boards/index.html.erb" do
   it "should render list of boards" do
     render "/boards/index.html.erb"
     response.should have_tag("tr>td", "value for title", 2)
-    response.should have_tag("tr>td", false, 2)
+    #response.should have_tag("tr>td", false, 2)
   end
 end
 

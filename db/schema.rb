@@ -9,7 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081223054924) do
+ActiveRecord::Schema.define(:version => 20081223072635) do
+
+  create_table "boards", :force => true do |t|
+    t.string   "title"
+    t.boolean  "is_public"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
