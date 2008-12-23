@@ -37,6 +37,10 @@ describe "Creating a public board" do
   it "should allow a guest to read the board" do
     @board.is_readable_by( @guest ).should eql( true )
   end
+  
+  it "should allow a guest to execute something on the board" do
+    @board.is_exec_by( @guest ).should eql( true )
+  end
 end
 
 describe "Creating a private board" do
@@ -54,12 +58,20 @@ describe "Creating a private board" do
     @board.is_writeable_by( @owner ).should eql( true )
   end
   
+  it "should be findable based on owner object." do
+    @owner.boards.include?(@board).should eql( true )
+    @guest.boards.include?(@board).should eql( false )
+  end
   it "should deny any other user write access to the board." do
     @board.is_writeable_by( @guest ).should eql( false )
   end
 
   it "should deny any other user read access to the board." do
     @board.is_readable_by( @guest ).should eql( false )
+  end
+  
+  it "should deny any user trying to execute an action on the board." do
+    @board.is_exec_by( @guest ).should eql( false )
   end
 
 end
