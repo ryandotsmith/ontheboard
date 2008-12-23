@@ -3,7 +3,7 @@ class CreateBoards < ActiveRecord::Migration
     create_table :boards do |t|
       t.string :title
       t.boolean :is_public
-
+      t.belongs_to :user
       t.timestamps
     end
   end

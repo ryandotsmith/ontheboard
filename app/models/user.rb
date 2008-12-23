@@ -3,7 +3,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
 #################################
   acts_as_authorized_user
-
+  has_many :boards
 #################################
   include Authentication
   include Authentication::ByPassword
