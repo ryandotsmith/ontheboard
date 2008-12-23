@@ -4,7 +4,7 @@ require 'aasm'
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   include AuthenticatedSystem
-
+  include PadlockAuthorization
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery # :secret => '8ae9be985785e6c71060dc910c3758a4'
