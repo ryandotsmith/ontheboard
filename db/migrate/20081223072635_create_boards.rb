@@ -2,7 +2,7 @@ class CreateBoards < ActiveRecord::Migration
   def self.up
     create_table :boards do |t|
       t.string :title
-      t.boolean :is_public
+      t.boolean :is_public, :default => true
       t.belongs_to :user
       t.timestamps
     end

@@ -12,6 +12,18 @@ class Board < ActiveRecord::Base
     self.accepts_role? :owner, user
   end#end method
   ####################
+  #is_readable_by( user ) should get
+  #=> the current user in the session
+  # and should return true if the user can read
+  #=>
+  def is_readable_by( user )
+    if self.is_public
+      return true
+    else
+      return( self.accepts_role? :reader, user ) 
+    end#end if
+  end#end method
+  ####################
   #make_owner!( user ) should get
   #=> The current user in the session
   # and should return
@@ -20,6 +32,14 @@ class Board < ActiveRecord::Base
   def make_owner!( user )
     self.accepts_role :owner, user
   end# end method
-  
+  ####################
+  #make_reader!( user ) should get
+  #=> the current user in the session 
+  # and should return 
+  #=>true if the role was added
+  # this will add the user as a reader to the ovject
+  def make_reader!( user )
+    self.accepts_role :reader, user
+  end
   
 end#end class
