@@ -7,7 +7,7 @@ class Board < ActiveRecord::Base
   # and should return true if the user can read
   #=>
   def is_readable_by( user )
-    if self.is_public
+    if self.is_public || self.accepts_role?( :owner, user ) 
       return true
     else
       return( self.accepts_role? :reader, user ) 

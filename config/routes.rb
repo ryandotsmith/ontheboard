@@ -8,7 +8,10 @@ ActionController::Routing::Routes.draw do |map|
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil 
   map.resources :users, :member => { :suspend   => :put,
                                      :unsuspend => :put,
-                                     :purge     => :delete }
+                                     :purge     => :delete },
+                        :has_many => :boards do |user|
+                                      user.resource :boards
+                                     end
   map.resource :session
 
   # The priority is based upon order of creation: first created -> highest priority.

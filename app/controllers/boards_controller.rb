@@ -1,4 +1,8 @@
 class BoardsController < ApplicationController
+  ###########################
+  before_filter :load_user
+  padlock(:on => :show) { Board.find(params[:id]).is_readable_by( @user )}
+  ###########################
   # GET /boards
   # GET /boards.xml
   def index
@@ -24,7 +28,7 @@ class BoardsController < ApplicationController
   # GET /boards/new
   # GET /boards/new.xml
   def new
-    @board = Board.new
+    @board = @user.boards.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,8 +44,8 @@ class BoardsController < ApplicationController
   # POST /boards
   # POST /boards.xml
   def create
-    @board = Board.new(params[:board])
-
+    @board = @user.boards.build(params[:board])
+    @board.make_owner!( @user )
     respond_to do |format|
       if @board.save
         flash[:notice] = 'Board was successfully created.'
@@ -80,6 +84,23 @@ class BoardsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(boards_url) }
       format.xml  { head :ok }
-    end
+    end# end do 
+  end#end method 
+protected
+  ####################
+  #load_user should get
+  #=>
+  # and should return
+  #=>
+  def load_user
+    @user = current_user
   end
-end
+  ####################
+  #verify_user should get
+  #=>
+  # and should return
+  #=>
+  def verify_user
+    
+  end
+end# end class
