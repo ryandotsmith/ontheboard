@@ -1,18 +1,10 @@
-<h1>Listing boards</h1>
-<%= current_user.login %>
+<h2>Here is what others are tracking</h2>
 <table>
-  <tr>
-    <th>Title</th>
-    <th>Is public</th>
-  </tr>
-
 <% for board in @boards %>
   <tr>
-    <td><%=h board.title %></td>
+    <td><%=h board.user.login%></td>
+	<td><%=h board.title %></td>
     <td><%=h board.is_public %></td>
-    <td><%= link_to 'Show', board %></td>
-    <td><%= link_to 'Edit', edit_board_path(board) %></td>
-    <td><%= link_to 'Destroy', board, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

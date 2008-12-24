@@ -39,6 +39,10 @@ ul.form li {
 	margin: 0;
 	padding: 1em;
 }
+#info_bar {
+	width:100%;
+	background-color:#E5CA7C;
+}
 .tips h3 {
 	font-weight:bold;
 	font-color:#382D24;
