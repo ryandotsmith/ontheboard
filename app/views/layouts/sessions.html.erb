@@ -4,21 +4,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>Boards: <%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'std' %> 
+  <title>Welcome Back!</title>
+  <%= stylesheet_link_tag 'std' %>
   <%= stylesheet_link_tag 'form' %> 
-
+ 
   <%= javascript_include_tag :defaults %>
 
 </head>
 <body>
-	<div id="header"></div>
+	<div id="header">
+	</div>
+	<!---->
+	<div id="info_bar">
+		<%= flash[:error] %>
+	</div>
+	<!---->	
 	<div id="container">
-		<div id="info_bar">
-			<%= flash[:notice]%>
-		</div>
 		<%= yield  %>
 	</div>
-	<div id="footer" style="text-align:center;"></div>
+	<!---->
+	<div id="footer" style="text-align:center;">
+	</div>
 </body>
 </html>

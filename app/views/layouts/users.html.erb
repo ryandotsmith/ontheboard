@@ -12,13 +12,17 @@
 
 </head>
 <body>
-	<div id="header"></div>
+	<div id="header">
+	</div>
+	<!---->
+	<div id="info_bar">
+	</div>
+	<!---->	
 	<div id="container">
-		<div id="info_bar">
-			<%= flash[:notice]%>
-		</div>
 		<%= yield  %>
 	</div>
-	<div id="footer" style="text-align:center;"></div>
+	<!---->
+	<div id="footer" style="text-align:center;">
+	</div>
 </body>
 </html>
