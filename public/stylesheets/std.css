@@ -14,6 +14,7 @@ ul.form li {
 #container {
 	position:relative;
 	width: 90%;
+	min-height:30em;
 	margin: 10px auto;
 	background-color: #fff;
 	color: #333;
@@ -43,6 +44,9 @@ ul.form li {
 	width:100%;
 	background-color:#E5CA7C;
 }
+.page_object {
+	border: 1px solid black;
+}
 .tips h3 {
 	font-weight:bold;
 	font-color:#382D24;
@@ -55,6 +59,62 @@ ul.form li {
 .tips li {
 	padding:.3em;
 	font-size:.95em;
+}
+ul.board_list  {
+	padding:0;
+	margin:0;
+}
+ul.board_list li {
+	list-style:none;
+	text-decoration:none;		
+	background-color:#494949;
+	height:2em;
+	width:auto;
+	padding:.3em;
+}
+ul.board_list a {
+	font-size:1.5em;
+	color:yellow;
+	text-decoration:none;
+}
+ul.board_list li:hover {
+	background-color:#646464;
+}
+
+ul.tally_list {
+	padding:0;
+	margin:0;
+}
+ul.tally_list li {
+	list-style:none;
+	text-decoration:none;		
+	background-color:#494949;
+	height:2em;
+	width:auto;
+	padding:.2em;
+}
+ul.tally_list a {
+	font-size:1.5em;
+	color:#3CB17C;
+	text-decoration:none;
+}
+ul.tally_list li:hover {
+	background-color:#646464;
+}
+
+.navigation {
+	padding-top:3em;
+	
+}
+.navigation a {
+	font-size:1.3em;
+	color:gray;
+	text-decoration:none;
+}
+.navigation a:hover {
+	font-size:1.3em;
+	color:green;
+	text-decoration:none;
 }
 
 #footer {

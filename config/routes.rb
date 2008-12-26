@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :pages
+
   map.resources :boards
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
@@ -9,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :member => { :suspend   => :put,
                                      :unsuspend => :put,
                                      :purge     => :delete },
+                        :has_one  => :page,
                         :has_many => :boards do |user|
                                       user.resource :boards
                                      end

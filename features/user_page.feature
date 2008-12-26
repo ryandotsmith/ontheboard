@@ -13,4 +13,4 @@ Feature: User Page
 	Scenario: User logs in with existing account 
 		Given a user has an activated account 
 		When the user logs in 
-		
+		Then the user will be redirected to their page

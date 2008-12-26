@@ -1,3 +1,4 @@
+=begin
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe "/boards/edit.html.erb" do
@@ -22,3 +23,4 @@ describe "/boards/edit.html.erb" do
 end
 
 
+=end
