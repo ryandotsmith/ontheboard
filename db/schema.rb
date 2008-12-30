@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(:version => 20081225033821) do
   create_table "boards", :force => true do |t|
     t.string   "title"
     t.string   "description"
+    t.string   "url"
     t.boolean  "is_public",   :default => true
     t.integer  "user_id"
     t.datetime "created_at"

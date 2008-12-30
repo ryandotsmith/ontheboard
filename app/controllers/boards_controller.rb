@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
   ###########################
   before_filter :load_user, :except => [:index]
-  padlock(:on => :show) { Board.find(params[:id]).is_readable_by( @user )}
+  padlock(:on => :show) { grab_board( params ).is_readable_by( @user )}
   ###########################
 
   def index
@@ -13,7 +13,12 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @board = Board.find(params[:id])
+    unless params[:user_name].nil?
+      @board  = Board.find_by_user_id(User.find_by_login(params[:user_name]).id)
+    else
+      @board = Board.find(params[:id])
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @board }
@@ -29,7 +34,7 @@ class BoardsController < ApplicationController
   end
 
   def edit
-    @board = Board.find(params[:id])
+    @board = grab_board(params)
   end
 
   def create
@@ -38,7 +43,7 @@ class BoardsController < ApplicationController
     respond_to do |format|
       if @board.save
         flash[:notice] = 'Board was successfully created.'
-        format.html { redirect_to(@board) }
+        format.html { redirect_to board_url(:id => @board.id) }
         format.xml  { render :xml => @board, :status => :created, :location => @board }
       else
         format.html { render :action => "new" }
@@ -48,11 +53,14 @@ class BoardsController < ApplicationController
   end
 
   def update
-    @board = Board.find(params[:id])
+    @board = grab_board(params)    
+    #this will rename the url with the updated title
     respond_to do |format|
-      if @board.update_attributes(params[:board])
+      if @board.update_attributes(params[:board]) 
+        @board.set_url(params[:board][:title])
         flash[:notice] = 'Board was successfully updated.'
-        format.html { redirect_to(@board) }
+        format.html { redirect_to user_board_url( :user_name => @board.user.login,
+                                                  :board_url => @board.url)}
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -82,5 +90,20 @@ protected
       redirect_to boards_url
     end#end unless
     @user
+  end
+  ####################
+  #grab_board(params) should get
+  #=>
+  # and should return
+  #=>
+  def grab_board(params)
+    user  = User.find_by_login(params[:user_name])
+    board_url = params[:board_url]
+    unless user.nil?
+      board = Board.find(:first, :conditions => "user_id = '#{user.id}' AND url = '#{board_url}'")
+    else
+      board = Board.find(params[:id])
+    end# end unless
+    board
   end
 end# end class

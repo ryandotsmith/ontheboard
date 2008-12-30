@@ -6,7 +6,11 @@
 </div><!--end right-->
 <div id="center">
 	<ul class="form">
-	<% form_for(@board, :html => {:class => 'user_form'}) do |f| %>
+	<% form_for([@board], 	
+				:url  => {  :action => 'update',
+							:user_name => @board.user.login,
+						    :board_url => @board.url	},
+				:html => {:class => 'user_form'}) do |f| %>
 	  <%= f.error_messages %>
 		<li>
 	    <%= f.label :title %>
@@ -25,7 +29,8 @@
 	    <%= f.submit "Update" %>
 		<li>
 		<li class="cancel">
-		<%= link_to "Cancel", @board%>
+		<%= link_to "Cancel", user_board_url(:user_name => @board.user.login,
+										:board_url => @board.url)%>
 		</li>
 	<% end %>
 	</ul>

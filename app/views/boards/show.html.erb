@@ -1,6 +1,7 @@
 <div id="left">
 	<div class="navigation">
-		<%= link_to 'Edit this board', edit_board_path(@board) %> 			
+		<%= link_to 'Edit this board', edit_board_url( :user_name => @board.user.login,
+													   :board_url => @board.url) %> 			
 	</div><!--end navigation-->
 </div><!--end left-->
   
@@ -13,7 +14,7 @@
 </div><!--end right-->
 <div id="center">
 	<h1> 
-		<%= link_to "#{@board.user.login}", user_page_url(:login => @board.user.login)%> : 
+		<%= link_to "#{@board.user.login}", user_page_url(:user_name => @board.user.login)%> : 
 		<%=h @board.title %>
 	</h1>
 	<h2>( <%= @board.description %> )</h2>

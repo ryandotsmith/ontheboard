@@ -3,6 +3,7 @@ class CreateBoards < ActiveRecord::Migration
     create_table :boards do |t|
       t.string :title
       t.string :description
+      t.string :url
       t.boolean :is_public, :default => true
       t.belongs_to :user
       t.timestamps

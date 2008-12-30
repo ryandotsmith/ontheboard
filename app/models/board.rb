@@ -1,6 +1,21 @@
 class Board < ActiveRecord::Base
   acts_as_authorizable
   belongs_to :user
+  
+  acts_as_url :title
+  
+  def to_param
+     url
+  end
+  ####################
+  #set_url should get
+  #=>
+  # and should return
+  #=>
+  def set_url( new )
+    self.url = new.to_url
+    self.save!
+  end
   ####################
   #is_readable_by( user ) should get
   #=> the current user in the session

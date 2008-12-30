@@ -1,8 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+    
+  map.resource :session
   map.resources :pages
-
   map.resources :boards
 
+  
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
@@ -15,10 +17,11 @@ ActionController::Routing::Routes.draw do |map|
                         :has_many => :boards do |user|
                                       user.resource :boards
                                      end
-  map.user_page '/:login', :controller => 'pages', :action => 'show', :login => nil
-  map.user_board '/:login/:board_title', :controller => 'boards', :action => show, :login => nil,:board_title => nil
-  map.resource :session
-
+ map.edit_board '/:user_name/:board_url/edit', :controller => 'boards', :action => 'edit'
+ map.user_board '/:user_name/:board_url', :controller => 'boards', :action => 'show'
+ map.user_page '/:user_name', :controller => 'pages', :action => 'show' 
+ 
+ 
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -60,4 +63,5 @@ ActionController::Routing::Routes.draw do |map|
   # consider removing the them or commenting them out if you're using named routes and resources.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
-end
+
+ end

@@ -13,7 +13,7 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.xml
   def show
-    @user = User.find_by_login(params[:login])
+    @user = User.find_by_login(params[:user_name])
     @page = @user.page
 
     respond_to do |format|
