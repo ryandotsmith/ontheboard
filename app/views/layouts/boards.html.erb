@@ -14,8 +14,9 @@
 <body>
 	<div id="header"></div>
 	<div id="container">
-		<div id="info_bar">
+		<div id="info_bar" style="display:none">
 			<%= flash[:notice]%>
+			<%= flash[:warning]%>
 		</div>
 		<%= yield  %>
 	</div>

@@ -15,6 +15,8 @@ ActionController::Routing::Routes.draw do |map|
                         :has_many => :boards do |user|
                                       user.resource :boards
                                      end
+  map.user_page '/:login', :controller => 'pages', :action => 'show', :login => nil
+  map.user_board '/:login/:board_title', :controller => 'boards', :action => show, :login => nil,:board_title => nil
   map.resource :session
 
   # The priority is based upon order of creation: first created -> highest priority.

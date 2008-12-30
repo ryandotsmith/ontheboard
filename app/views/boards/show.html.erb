@@ -1,13 +1,20 @@
-<p>
-  <b>Title:</b>
-  <%=h @board.title %>
-</p>
-
-<p>
-  <b>Is public:</b>
-  <%=h @board.is_public %>
-</p>
-
-
-<%= link_to 'Edit', edit_board_path(@board) %> |
-<%= link_to 'Back', boards_path %>
+<div id="left">
+	<div class="navigation">
+		<%= link_to 'Edit this board', edit_board_path(@board) %> 			
+	</div><!--end navigation-->
+</div><!--end left-->
+  
+<div id="right">
+	<% if @board.is_public %>
+		<p><a class="ast">*</a><h3 class="tips">This board is public</h3></p>
+	<% else %>
+		<p><a class="ast">*</a><h3 class="tips">This board is private</h3></p>
+	<% end %>	
+</div><!--end right-->
+<div id="center">
+	<h1> 
+		<%= link_to "#{@board.user.login}", user_page_url(:login => @board.user.login)%> : 
+		<%=h @board.title %>
+	</h1>
+	<h2>( <%= @board.description %> )</h2>
+</div><!--end center-->

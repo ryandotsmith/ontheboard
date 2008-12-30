@@ -4,12 +4,47 @@ body {
 	font-family:helvetica;
 	
 }
+#center h1 {
+	font-size:14pt;
+}
+#center h2 {
+	color:gray;
+	font-size:9pt;
+}
+h1 a {
+	color:inherit;
+	text-decoration:none;
+}
+h1 a:hover {
+	color:green;
+}
 ul.form {
 	list-style:none;
 	text-decoration:none;
 }
 ul.form li {
 	margin-top:2em;
+}
+ul.form li.cancel {
+	text-align:center;
+	height:1.5em;
+	width:19em;
+	padding:7px;
+	border: 3px outset white;
+	background-color:red;
+	color:white;
+}
+ul.form li.cancel a {
+	font-size:20px;
+	text-decoration:none;
+	color:white;
+}
+a.ast {
+	font-family:times;
+	color:green;
+	padding-top:10px;
+	font-size:3em;
+	float:left;
 }
 #container {
 	position:relative;

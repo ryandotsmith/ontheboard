@@ -19,7 +19,12 @@
 	<ul class= "form">
 	<% form_for :user, :url => users_path, :html => {:class => 'user_form'} do |f| -%>
 	<li>
-		<%= label_tag 'username' %>
+		<%= label_tag 'your name' %>
+		<%= f.text_field :name %>
+	</li>
+	
+	<li>
+		<%= label_tag 'desired username' %>
 		<%= f.text_field :login %>
 	</li>
 	<li>
@@ -38,4 +43,5 @@
 		<%= submit_tag 'Sign up' %>
 	</li>
 	<% end -%>
+	</ul>
 </div>

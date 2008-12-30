@@ -1,20 +1,32 @@
-<h1>Editing board</h1>
+<div id="left">
+	
+</div><!--end left-->
+<div id="right">
+	
+</div><!--end right-->
+<div id="center">
+	<ul class="form">
+	<% form_for(@board, :html => {:class => 'user_form'}) do |f| %>
+	  <%= f.error_messages %>
+		<li>
+	    <%= f.label :title %>
+	    <%= f.text_field :title %>
+		</li>
+		<li>
+	    <%= f.label :description %>
+	    <%= f.text_field :description %>
+		</li>
 
-<% form_for(@board) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :is_public %><br />
-    <%= f.check_box :is_public %>
-  </p>
-  <p>
-    <%= f.submit "Update" %>
-  </p>
-<% end %>
-
-<%= link_to 'Show', @board %> |
-<%= link_to 'Back', boards_path %>
+		<li>
+	    <%= f.label :is_public %>
+	    <%= f.check_box :is_public %>
+		</li>
+		<li>
+	    <%= f.submit "Update" %>
+		<li>
+		<li class="cancel">
+		<%= link_to "Cancel", @board%>
+		</li>
+	<% end %>
+	</ul>
+</div><!--end center-->
