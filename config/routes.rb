@@ -10,12 +10,12 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users, :member => { :suspend   => :put,
                                      :unsuspend => :put,
-                                     :purge     => :delete } #,
+                                     :purge     => :delete },
                         #:has_one  => :page,
-                        #:has_many => :boards do |user|
-                        #              user.resource :boards
-                        #             end
- #map.resource :session
+                        :has_many => :boards do |user|
+                                      user.resource :boards
+                                     end
+ map.resource :session
  #map.resources :pages
  map.resources :boards, :only => [:new, :create, :destroy]
  

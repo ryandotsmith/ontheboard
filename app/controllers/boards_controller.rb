@@ -13,12 +13,7 @@ class BoardsController < ApplicationController
   end
 
   def show
-    unless params[:user_name].nil?
-      @board  = Board.find_by_user_id(User.find_by_login(params[:user_name]).id)
-    else
-      @board = Board.find(params[:id])
-    end
-
+    @board  = grab_board( params )
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @board }
