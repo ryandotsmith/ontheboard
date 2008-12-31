@@ -87,7 +87,7 @@ protected
     @user = current_user
     unless @user
       flash[:notice]= "You must <a href='/login''>log in</a>to do this"
-      redirect_to boards_url
+      #redirect_to boards_url
     end#end unless
     @user
   end

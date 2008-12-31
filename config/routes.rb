@@ -1,25 +1,28 @@
 ActionController::Routing::Routes.draw do |map|
-    
-  map.resource :session
-  map.resources :pages
-  map.resources :boards
 
+  # These routes are defined for the use of restful-authentication
+  # 
+  map.logout    '/logout',      :controller => 'sessions', :action => 'destroy'
+  map.login     '/login',       :controller => 'sessions', :action => 'new'
+  map.register  '/register',    :controller => 'users',    :action => 'create'
+  map.signup    '/signup',      :controller => 'users',   :action => 'new'
+  map.activate  '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil 
   
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new'
-  map.register '/register', :controller => 'users', :action => 'create'
-  map.signup '/signup', :controller => 'users', :action => 'new'
-  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil 
   map.resources :users, :member => { :suspend   => :put,
                                      :unsuspend => :put,
-                                     :purge     => :delete },
-                        :has_one  => :page,
-                        :has_many => :boards do |user|
-                                      user.resource :boards
-                                     end
- map.edit_board '/:user_name/:board_url/edit', :controller => 'boards', :action => 'edit'
- map.user_board '/:user_name/:board_url', :controller => 'boards', :action => 'show'
- map.user_page '/:user_name', :controller => 'pages', :action => 'show' 
+                                     :purge     => :delete } #,
+                        #:has_one  => :page,
+                        #:has_many => :boards do |user|
+                        #              user.resource :boards
+                        #             end
+ #map.resource :session
+ #map.resources :pages
+ map.resources :boards, :only => [:new, :create, :destroy]
+ 
+ map.user_page   '/:user_name',                  :controller => 'pages',  :action => 'show' 
+ map.user_board  '/:user_name/:board_url',       :controller => 'boards', :action => 'show',   :conditions => { :method => :get }
+ map.edit_board  '/:user_name/:board_url/edit',  :controller => 'boards', :action => 'edit',   :conditions => { :method => :get }
+ map.update_board'/:user_name/:board_url',       :controller => 'boards', :action => 'update', :conditions => { :method => :put }
  
  
   # The priority is based upon order of creation: first created -> highest priority.
@@ -61,7 +64,7 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  #map.connect ':controller/:action/:id'
+  #map.connect ':controller/:action/:id.:format'
 
  end
