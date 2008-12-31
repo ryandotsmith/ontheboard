@@ -3,7 +3,10 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe BoardsController do
 
-  def mock_board(stubs={})
+  def mock_board(stubs={ :title    => "eat-fish",
+                         :url      => "eat-fish",
+                         :user_id  => 1 ,
+                         :is_public=> true})
     @mock_board ||= mock_model(Board, stubs)
   end
 =begin
@@ -32,7 +35,7 @@ describe BoardsController do
   describe "responding to GET show" do
 
     it "should expose the requested board as @board" do
-      Board.should_receive(:find).with("37").and_return( mock_board )
+      Board.should_receive(:find_by_user_id).with("1").and_return( mock_board )
       get :show, :id => "37"
       assigns[:board].should equal( mock_board )
     end

@@ -48,7 +48,7 @@ class BoardsController < ApplicationController
   end
 
   def update
-    @board = grab_board(params)    
+    @board = grab_board( params )    
     #this will rename the url with the updated title
     respond_to do |format|
       if @board.update_attributes(params[:board]) 
