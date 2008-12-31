@@ -2,14 +2,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe BoardsController do
+  
 
-  def mock_board(stubs={ :title    => "eat-fish",
-                         :url      => "eat-fish",
-                         :user_id  => 1 ,
-                         :is_public=> true})
-    @mock_board ||= mock_model(Board, stubs)
-  end
 =begin
+
   describe "responding to GET index" do
 
     it "should expose all boards as @boards" do
@@ -32,27 +28,31 @@ describe BoardsController do
 
   end
 =end
+
   describe "responding to GET show" do
-
-    it "should expose the requested board as @board" do
-      Board.should_receive(:find_by_user_id).with("1").and_return( mock_board )
-      get :show, :id => "37"
-      assigns[:board].should equal( mock_board )
-    end
-    
-    describe "with mime type of xml" do
-
-      it "should render the requested board as xml" do
-        request.env["HTTP_ACCEPT"] = "application/xml"
-        Board.should_receive(:find).with("37").and_return(mock_board)
-        mock_board.should_receive(:to_xml).and_return("generated XML")
-        get :show, :id => "37"
-        response.body.should == "generated XML"
+    before(:each) do 
+      def mock_user(stubs={:id => 1,:login => "ryandotsmith"})
+        @mock_user ||= mock_model(User,stubs)
       end
-
+      def mock_board(stubs={:id => 1,:user_id => 1,:url => "eats-fish",:title => "eats-fish"})
+        @mock_board ||= mock_model(Board,stubs)
+      end
+      
+      @params = { "action"     => "show", 
+                  "board_url"  => "eat-fish",
+                  "controller" => "boards",
+                  "user_name"  => "ryan" }
     end
-    
+
+    it "should expose the requested board as @board" do      
+      Board.should_receive(:find_from).twice.with(@params).and_return(mock_board)
+      mock_board.stub!(:is_readable_by).with(@mock_user).and_return(true)
+      #Board.should_receive(:is_readable_by).with(mock_user).and_return(true)
+      get :show, :user_name => "ryan", :board_url => "eat-fish"
+      assigns[:board].should equal( mock_board )
+    end    
   end
+
 =begin
   describe "responding to GET new" do
   

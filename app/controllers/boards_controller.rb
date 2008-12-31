@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
   ###########################
   before_filter :load_user, :except => [:index]
-  padlock(:on => :show) { grab_board( params ).is_readable_by( @user )}
+  padlock(:on => :show) { Board.find_from( params ).is_readable_by( @user )}
   ###########################
 
   def index
@@ -13,7 +13,7 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @board  = grab_board( params )
+    @board  = Board.find_from( params )
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @board }
@@ -86,19 +86,5 @@ protected
     end#end unless
     @user
   end
-  ####################
-  #grab_board(params) should get
-  #=>
-  # and should return
-  #=>
-  def grab_board(params)
-    user  = User.find_by_login(params[:user_name])
-    board_url = params[:board_url]
-    unless user.nil?
-      board = Board.find(:first, :conditions => "user_id = '#{user.id}' AND url = '#{board_url}'")
-    else
-      board = Board.find(params[:id])
-    end# end unless
-    board
-  end
+  
 end# end class

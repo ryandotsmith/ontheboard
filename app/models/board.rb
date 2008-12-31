@@ -8,6 +8,16 @@ class Board < ActiveRecord::Base
      url
   end
   ####################
+  #find_from( params ) should get
+  #=>
+  # and should return
+  #=>
+  def find_from( params )
+    user      = User.find_by_login(params[:user_name])
+    board_url = params[:board_url]
+    board = Board.find(:first, :conditions => "user_id = '#{user.id}' AND url = '#{board_url}'")
+  end
+  ####################
   #set_url should get
   #=>
   # and should return

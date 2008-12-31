@@ -1,21 +1,17 @@
 class PagesController < ApplicationController
 
-  # GET /pages/1
-  # GET /pages/1.xml
   def show
-    @user = User.find_by_login(params[:user_name])
-    @page = @user.page
-
+    #@user = User.find_by_login(params[:user_name])
+    #@page = @user.page
+    @page = Page.find_by_user_id(User.find_by_login(params[:user_name]))
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @page }
     end
   end
-  # POST /pages
-  # POST /pages.xml
+ 
   def create
     @page = Page.new(params[:page])
-
     respond_to do |format|
       if @page.save
         flash[:notice] = 'Page was successfully created.'
