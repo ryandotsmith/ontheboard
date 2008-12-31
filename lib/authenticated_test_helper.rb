@@ -17,4 +17,12 @@ module AuthenticatedTestHelper
       :errors => [])
     user
   end  
+  
+  def user_login
+    current_user = mock_model User
+    current_user.stub!(:has_role?).with('owner').and_return(true)
+    controller.stub!(:current_user).and_return(current_user)
+    current_user
+  end
+  
 end

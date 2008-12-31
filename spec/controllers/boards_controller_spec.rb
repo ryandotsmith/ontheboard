@@ -1,7 +1,28 @@
-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+include AuthenticatedTestHelper
 
 describe BoardsController do
+  before(:each) do 
+     def mock_user(stubs={:id => 1,:login => "ryandotsmith"})
+       @mock_user ||= mock_model(User,stubs)
+     end
+     def mock_board(stubs={:id => 1,:user_id => 1,:url => "eats-fish",:title => "eats-fish"})
+       @mock_board ||= mock_model(Board,stubs)
+     end
+     def make_params(b={})
+        a = {'controller' => 'boards',"user_name" => "ryan","board_url"=>"eat-fish"}
+        a.merge!(b)
+     end
+     @board = mock_board
+     # user_login is a method in the AuthenticatedTestHelper module
+     # look in /lib/AuthenticatedTestHelper for what this thing does.
+     @user  = user_login
+     @params = { "action"     => "show", 
+                 "board_url"  => "eat-fish",
+                 "controller" => "boards",
+                 "user_name"  => "ryan" }
+            
+   end# end before block
   
 
 =begin
@@ -30,68 +51,61 @@ describe BoardsController do
 =end
 
   describe "responding to GET show" do
-    before(:each) do 
-      def mock_user(stubs={:id => 1,:login => "ryandotsmith"})
-        @mock_user ||= mock_model(User,stubs)
-      end
-      def mock_board(stubs={:id => 1,:user_id => 1,:url => "eats-fish",:title => "eats-fish"})
-        @mock_board ||= mock_model(Board,stubs)
-      end
-      
-      @params = { "action"     => "show", 
-                  "board_url"  => "eat-fish",
-                  "controller" => "boards",
-                  "user_name"  => "ryan" }
-    end
-
-    it "should expose the requested board as @board" do      
-      Board.should_receive(:find_from).twice.with(@params).and_return(mock_board)
-      mock_board.stub!(:is_readable_by).with(@mock_user).and_return(true)
-      #Board.should_receive(:is_readable_by).with(mock_user).and_return(true)
+ 
+    it "should expose the requested board as @board" do            
+      Board.should_receive(:find_from).twice.with(@params).and_return(@board)
+      @board.should_receive(:is_readable_by).with(@user).and_return(true)
       get :show, :user_name => "ryan", :board_url => "eat-fish"
       assigns[:board].should equal( mock_board )
     end    
   end
 
-=begin
   describe "responding to GET new" do
-  
     it "should expose a new board as @board" do
-      Board.should_receive(:new).and_return(mock_board)
+      @user.should_receive(:boards).and_return(@board)
+      @board.should_receive(:build).and_return( @board )
       get :new
       assigns[:board].should equal(mock_board)
     end
-
   end
 
   describe "responding to GET edit" do
   
     it "should expose the requested board as @board" do
-      Board.should_receive(:find).with("37").and_return(mock_board)
-      get :edit, :id => "37"
+      params = make_params({"action"=>"edit"})
+      Board.should_receive(:find_from).with(params).and_return( @board )
+      get :edit, :user_name => "ryan", :board_url => "eat-fish"
       assigns[:board].should equal(mock_board)
     end
 
   end
 
+
   describe "responding to POST create" do
 
     describe "with valid params" do
-      
       it "should expose a newly created board as @board" do
-        Board.should_receive(:new).with({'these' => 'params'}).and_return(mock_board(:save => true))
-        post :create, :board => {:these => 'params'}
+        build_params = {"id" => 1, "user_id" => 1, "title" => "my-board","url" => "my-board"}
+        @user.should_receive(:boards).and_return(@board)
+        @board.should_receive(:build).with(build_params).and_return(@board)
+        @board.should_receive(:make_owner!).with(@user).and_return(true)
+        @board.should_receive(:save).and_return(true)
+        @user.should_receive(:login).and_return("ryan")
+        post :create, :board => build_params
         assigns(:board).should equal(mock_board)
-      end
-
+      end#end it
       it "should redirect to the created board" do
-        Board.stub!(:new).and_return(mock_board(:save => true))
+        build_params = {"id" => 1, "user_id" => 1, "title" => "my-board","url" => "my-board"}
+        @user.should_receive(:boards).and_return(@board)
+        @board.should_receive(:build).with({}).and_return(@board)
+        @board.should_receive(:make_owner!).with(@user).and_return(true)
+        @board.should_receive(:save).and_return(true)
+        @user.should_receive(:login).and_return("ryan")
         post :create, :board => {}
-        response.should redirect_to(board_url(mock_board))
-      end
-      
-    end
-    
+        response.should redirect_to(user_board_url(:user_name => "ryan",:board_url => "eats-fish"))
+      end#end it
+    end# end describ
+=begin 
     describe "with invalid params" do
 
       it "should expose a newly created but unsaved board as @board" do
@@ -107,9 +121,10 @@ describe BoardsController do
       end
       
     end
-    
-  end
+=end    
+  end#end describe
 
+=begin
   describe "responding to PUT udpate" do
 
     describe "with valid params" do
@@ -176,3 +191,5 @@ describe BoardsController do
 =end
 
 end
+
+
