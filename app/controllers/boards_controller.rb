@@ -29,7 +29,7 @@ class BoardsController < ApplicationController
   end
 
   def edit
-    @board = grab_board(params)
+    @board = Board.find_from( params )
   end
 
   def create
@@ -38,7 +38,8 @@ class BoardsController < ApplicationController
     respond_to do |format|
       if @board.save
         flash[:notice] = 'Board was successfully created.'
-        format.html { redirect_to board_url(:id => @board.id) }
+        format.html { redirect_to user_board_url( :user_name => @user.login, 
+                                                  :board_url => @board.url) }
         format.xml  { render :xml => @board, :status => :created, :location => @board }
       else
         format.html { render :action => "new" }
@@ -48,13 +49,13 @@ class BoardsController < ApplicationController
   end
 
   def update
-    @board = grab_board( params )    
+    @board = Board.find_from( params )    
     #this will rename the url with the updated title
     respond_to do |format|
       if @board.update_attributes(params[:board]) 
         @board.set_url(params[:board][:title])
         flash[:notice] = 'Board was successfully updated.'
-        format.html { redirect_to user_board_url( :user_name => @board.user.login,
+        format.html { redirect_to user_board_url( :user_name => @user.login,
                                                   :board_url => @board.url)}
         format.xml  { head :ok }
       else
