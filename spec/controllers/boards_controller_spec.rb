@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 include AuthenticatedTestHelper
-
+include AnonUser
 describe BoardsController do
   before(:each) do 
      def mock_user(stubs={:id => 1,:login => "ryandotsmith"})
@@ -16,7 +16,7 @@ describe BoardsController do
      @board = mock_board
      # user_login is a method in the AuthenticatedTestHelper module
      # look in /lib/AuthenticatedTestHelper for what this thing does.
-     @user  = give_me_the(:owner)
+     @user  = give_me_the(:owner).first
      @params = { "action"     => "show", 
                  "board_url"  => "eat-fish",
                  "controller" => "boards",
@@ -52,9 +52,10 @@ describe BoardsController do
 
   describe "responding to GET show" do
  
-    it "should expose the requested board as @board" do            
-      Board.should_receive(:find_from).twice.with(@params).and_return(@board)
-      @board.should_receive(:is_readable_by).with(@user).and_return(true)
+    it "should expose the requested Private board as @board" do            
+      Board.should_receive(:find_from).exactly(2).times.with(@params).and_return(@board)
+      @board.should_receive(:is_public).once.and_return( false )
+      @board.should_receive(:is_readable_by).with(@user).and_return( true )
       get :show, :user_name => "ryan", :board_url => "eat-fish"
       assigns[:board].should equal( mock_board )
     end
@@ -65,12 +66,13 @@ describe BoardsController do
     # andywhere else in the app we will test the user before giving them 
     # a link. 
     it "should give an epoch fail to the user who tries to read an unreadable" do
-        @bad_user = give_me_the( :subscriber, @board )
-        Board.should_receive(:find_from).twice.with(@params).and_return(@board)
+        @bad_user = mock_model AnonUser
+        controller.stub!(:current_user).and_return(@bad_user)
+        Board.should_receive(:find_from).exactly(1).times.with(@params).and_return(@board)
+        @board.should_receive(:is_public).once.and_return( false )
         @board.should_receive(:is_readable_by).with(@bad_user).and_return(false)
         get :show, :user_name => "ryan", :board_url => "eat-fish"
-        response.should redirect_to(user_board_url(:user_name => "ryan",:board_url => "eats-fish"))
-    
+        response.should redirect_to(login_url)
     end    
   end
 
@@ -87,12 +89,14 @@ describe BoardsController do
   
     it "should expose the requested board as @board" do
       params = make_params({"action"=>"edit"})
-      Board.should_receive(:find_from).with(params).and_return( @board )
+      Board.should_receive(:find_from).exactly(2).times.with(params).and_return( @board )
+      @board.should_receive(:is_writeable_by).with(@user).and_return( true )
       get :edit, :user_name => "ryan", :board_url => "eat-fish"
       assigns[:board].should equal(mock_board)
     end
 
   end
+
 
 
   describe "responding to POST create" do

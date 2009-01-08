@@ -18,16 +18,17 @@ module AuthenticatedTestHelper
     user
   end  
   
-  def give_me_the( who, what )
-    current_user = mock_model User
+  def give_me_the( who )
+    current_user  = mock_model User
+    board         = mock_model Board
     controller.stub!(:current_user).and_return(current_user)
     case who
       when :owner
-        what.stub!(:has_role?).with('owner').and_return(true)
+        board.stub!(:has_role?).with('owner').and_return(true)
       when :subscriber
-        what.stub!(:has_role?).with('subscriber').and_return(true)
+        board.stub!(:has_role?).with('subscriber').and_return(true)
     end
-    current_user
+    [current_user, board]
   end
-  
+
 end

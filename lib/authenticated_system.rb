@@ -1,15 +1,20 @@
 module AuthenticatedSystem
+  include AnonUser
   protected
     # Returns true or false if the user is logged in.
     # Preloads @current_user with the user model if they're logged in.
     def logged_in?
-      !!current_user
+      if current_user.is_a?(AnonUser::Anon)
+        return false
+      else
+        !!current_user
+      end
     end
 
     # Accesses the current user from the session.
     # Future calls avoid the database because nil is not equal to false.
     def current_user
-      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
+      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || get_anon_user) unless @current_user == false
     end
 
     # Store the given user id in the session.
@@ -31,8 +36,13 @@ module AuthenticatedSystem
     #    current_user.login != "bob"
     #  end
     #
+    # if the current user is anon they are certainly not authorized
     def authorized?(action = action_name, resource = nil)
-      logged_in?
+      if current_user.is_a?(AnonUser::Anon)
+        false
+      else
+        logged_in? 
+      end
     end
 
     # Filter method to enforce a login requirement.

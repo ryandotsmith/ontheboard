@@ -1,7 +1,9 @@
 class BoardsController < ApplicationController
   ###########################
   before_filter :load_user, :except => [:index]
-  padlock(:on => :show) { Board.find_from( params ).is_readable_by( @user )}
+  before_filter :redirect_if_anon, :only => [:new,:create,:edit]
+  padlock(:on => :show) { can_look(@user,Board.find_from( params )) }
+  padlock(:on => [:edit,:update,:destroy]) { Board.find_from( params ).is_writeable_by( @user ) }  
   ###########################
 
   def index
@@ -81,11 +83,35 @@ protected
   #=>
   def load_user
     @user = current_user
-    unless @user
+    if @user.nil? and Board.find_from( params ).is_public != true 
       flash[:notice]= "You must <a href='/login''>log in</a>to do this"
-      #redirect_to boards_url
+      redirect_to login_url
     end#end unless
     @user
   end
-  
+
+  ####################
+  #redirect_if_anon should get
+  #=>
+  # and should return
+  #=>
+  def redirect_if_anon
+    if @user.is_a?(AnonUser::Anon)
+       flash[:notice] = "You might as well just sign up for an account."
+       redirect_to login_url 
+    end# end if
+  end
+  ####################
+  #can_look should get
+  #=>
+  # and should return
+  #=>
+  def can_look( user, board )
+    if board.is_public || board.is_readable_by( user )
+      return true
+    else
+      flash[:warning] = "You are not suppose to look at this board! "
+      redirect_to login_url
+    end# end if
+  end#end method
 end# end class

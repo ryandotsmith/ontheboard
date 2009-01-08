@@ -46,7 +46,11 @@ class Board < ActiveRecord::Base
   #=> and return false otherwise 
   #=> accepts_role? is a mehtod given by padlock_authorization
   def is_writeable_by( user )  
-    self.accepts_role? :owner, user
+    if user.is_a?(AnonUser::Anon)
+      return false
+    else
+       self.accepts_role? :owner, user
+    end
   end#end method
   ####################
   #is_exec_by( user ) should get
