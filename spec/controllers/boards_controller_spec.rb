@@ -16,7 +16,7 @@ describe BoardsController do
      @board = mock_board
      # user_login is a method in the AuthenticatedTestHelper module
      # look in /lib/AuthenticatedTestHelper for what this thing does.
-     @user  = user_login
+     @user  = give_me_the(:owner)
      @params = { "action"     => "show", 
                  "board_url"  => "eat-fish",
                  "controller" => "boards",
@@ -57,6 +57,20 @@ describe BoardsController do
       @board.should_receive(:is_readable_by).with(@user).and_return(true)
       get :show, :user_name => "ryan", :board_url => "eat-fish"
       assigns[:board].should equal( mock_board )
+    end
+    # the case where a user tries to read a private board 
+    # such that the user does not have read permission
+    # NOTE: the only way that i see this happening is if a user 
+    # access a board via route. (ie /username/board)
+    # andywhere else in the app we will test the user before giving them 
+    # a link. 
+    it "should give an epoch fail to the user who tries to read an unreadable" do
+        @bad_user = give_me_the( :subscriber, @board )
+        Board.should_receive(:find_from).twice.with(@params).and_return(@board)
+        @board.should_receive(:is_readable_by).with(@bad_user).and_return(false)
+        get :show, :user_name => "ryan", :board_url => "eat-fish"
+        response.should redirect_to(user_board_url(:user_name => "ryan",:board_url => "eats-fish"))
+    
     end    
   end
 

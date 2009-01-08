@@ -18,10 +18,15 @@ module AuthenticatedTestHelper
     user
   end  
   
-  def user_login
+  def give_me_the( who, what )
     current_user = mock_model User
-    current_user.stub!(:has_role?).with('owner').and_return(true)
     controller.stub!(:current_user).and_return(current_user)
+    case who
+      when :owner
+        what.stub!(:has_role?).with('owner').and_return(true)
+      when :subscriber
+        what.stub!(:has_role?).with('subscriber').and_return(true)
+    end
     current_user
   end
   

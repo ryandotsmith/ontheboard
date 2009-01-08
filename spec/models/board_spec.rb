@@ -85,18 +85,21 @@ end
 describe "Giving a user permission to a board" do
   ###############
   before(:each) do
-    @guest  = Factory( :user, :name => "Jim Whiteknuckle")
-    @owner  = Factory( :user, :name => "Ron Arbuckle")
-    @board  = Factory( :board, :user_id => @owner.id, :is_public => false) 
+    @unknown  = Factory( :user, :name => "Todd Billings")
+    @guest    = Factory( :user, :name => "Jim Whiteknuckle")
+    @owner    = Factory( :user, :name => "Ron Arbuckle")
+    @board    = Factory( :board, :user_id => @owner.id, :is_public => false) 
   end
   ###############
   it "should add a user as a subscriber " do
     @guest.has_role?(  :subscriber, @board ).should eql( false )
     @board.is_exec_by( @guest ).should eql( false )
+    @board.is_exec_by( @unknown ).should eql( false )
     #
     @board.make_subscriber!( @guest )
     #
     @guest.has_role?(  :subscriber, @board ).should eql( true )
     @board.is_exec_by( @guest ).should eql( true )
+    @board.is_exec_by( @unknown ).should eql( false )
   end
 end
