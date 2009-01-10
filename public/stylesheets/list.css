@@ -1,0 +1,82 @@
+
+/* Class = Form */
+ul.form {
+	list-style:none;
+	text-decoration:none;
+}
+ul.form li {
+	margin-top:2em;
+}
+ul.form li.cancel {
+	text-align:center;
+	height:1.5em;
+	width:19em;
+	padding:7px;
+	border: 3px outset white;
+	background-color:red;
+	color:white;
+}
+ul.form li.cancel a {
+	font-size:20px;
+	text-decoration:none;
+	color:white;
+}
+
+/*Class = Tips */
+
+.tips ul {
+	list-style:none;
+	text-decoration:none;
+}
+.tips li {
+	padding:.3em;
+	font-size:.95em;
+}
+
+
+/*	Class = Board List	*/
+ul.board_list  {
+	padding:0;
+	margin:0;
+}
+ul.board_list li {
+	list-style:none;
+	text-decoration:none;		
+	background-color:#494949;
+	height:2em;
+	width:auto;
+	padding:.3em;
+}
+ul.board_list a {
+	font-size:1.5em;
+	color:yellow;
+	text-decoration:none;
+}
+ul.board_list li:hover {
+	background-color:#646464;
+}
+
+/*	Class = Tally_List	*/
+ul.tally_list {
+	padding:0;
+	margin:0;
+}
+ul.tally_list li {
+	list-style:none;
+	text-decoration:none;		
+	background-color:#494949;
+	height:2em;
+	width:auto;
+	padding:.2em;
+}
+ul.tally_list a {
+	font-size:1.5em;
+	color:#3CB17C;
+	text-decoration:none;
+}
+ul.tally_list li:hover {
+	background-color:#646464;
+}
+
+/**/
+/**/

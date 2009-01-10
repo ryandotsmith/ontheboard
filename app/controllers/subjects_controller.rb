@@ -1,51 +1,32 @@
 class SubjectsController < ApplicationController
-  # GET /subjects
-  # GET /subjects.xml
-  def index
-    @subjects = Subject.find(:all)
+  ######################################
+  before_filter :load_board 
+  
+  ######################################
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @subjects }
-    end
-  end
-
-  # GET /subjects/1
-  # GET /subjects/1.xml
   def show
-    @subject = Subject.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @subject }
-    end
+    @subject = Subject.find_from( params )
   end
 
-  # GET /subjects/new
-  # GET /subjects/new.xml
   def new
-    @subject = Subject.new
-
+    @subject = @board.subjects.build
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @subject }
     end
   end
 
-  # GET /subjects/1/edit
   def edit
-    @subject = Subject.find(params[:id])
+    @subject = Subject.find_from( params )
   end
 
-  # POST /subjects
-  # POST /subjects.xml
   def create
-    @subject = Subject.new(params[:subject])
-
+    @subject = @board.subjects.build(params[:subject])
     respond_to do |format|
       if @subject.save
         flash[:notice] = 'Subject was successfully created.'
-        format.html { redirect_to(@subject) }
+        format.html { redirect_to user_board_url( :user_name => @board.user.login, 
+                                                  :board_url => @board.url) }
         format.xml  { render :xml => @subject, :status => :created, :location => @subject }
       else
         format.html { render :action => "new" }
@@ -54,15 +35,13 @@ class SubjectsController < ApplicationController
     end
   end
 
-  # PUT /subjects/1
-  # PUT /subjects/1.xml
   def update
-    @subject = Subject.find(params[:id])
-
+    @subject = Subject.find_from( params )
     respond_to do |format|
       if @subject.update_attributes(params[:subject])
         flash[:notice] = 'Subject was successfully updated.'
-        format.html { redirect_to(@subject) }
+        format.html { redirect_to user_board_url( :user_name => @board.user.login, 
+                                                  :board_url => @board.url)}
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -71,15 +50,22 @@ class SubjectsController < ApplicationController
     end
   end
 
-  # DELETE /subjects/1
-  # DELETE /subjects/1.xml
   def destroy
-    @subject = Subject.find(params[:id])
+    @subject = Subject.find_from( params )
     @subject.destroy
-
     respond_to do |format|
-      format.html { redirect_to(subjects_url) }
+      format.html { redirect_to user_board_url( :user_name => @board.user.login, 
+                                                :board_url => @board.url) }
       format.xml  { head :ok }
     end
   end
-end
+protected
+  ####################
+  #load_board should get
+  #=>
+  # and should return
+  #=>
+  def load_board
+    @board = Board.find_from( params )
+  end
+end#end class

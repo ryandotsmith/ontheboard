@@ -5,8 +5,9 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>On the Board</title>
-  <%= stylesheet_link_tag 'std' %>
-  <%= stylesheet_link_tag 'form' %> 
+	<% get_css.each do |tag|%>
+		<%=	stylesheet_link_tag "#{tag}"%>
+	<% end %>
  
   <%= javascript_include_tag :defaults %>
 

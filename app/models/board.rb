@@ -1,7 +1,7 @@
 class Board < ActiveRecord::Base
   acts_as_authorizable
   belongs_to :user
-  has_many_subjects
+  has_many :subjects
   
   acts_as_url :title
   

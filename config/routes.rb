@@ -1,7 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :subjects
-
-
   # These routes are defined for the use of restful-authentication
   # 
   map.logout    '/logout',      :controller => 'sessions', :action => 'destroy'
@@ -19,14 +16,40 @@ ActionController::Routing::Routes.draw do |map|
                                      end
  map.resource :session
  #map.resources :pages
- map.resources :boards, :only => [:new, :create, :destroy]
+ map.resources :boards,   :only =>  [ :new, :create, :destroy ] , :has_many => :subjects
+ #map.resources :subjects, :only =>  [ :new, :create, :destroy ]
  
  map.user_page   '/:user_name',                  :controller => 'pages',  :action => 'show' 
+
  map.user_board  '/:user_name/:board_url',       :controller => 'boards', :action => 'show',   :conditions => { :method => :get }
  map.edit_board  '/:user_name/:board_url/edit',  :controller => 'boards', :action => 'edit',   :conditions => { :method => :get }
  map.update_board'/:user_name/:board_url',       :controller => 'boards', :action => 'update', :conditions => { :method => :put }
- 
- 
+############################
+# Subject
+#
+ map.new_subject '/:user_name/:board_url/new',   
+  :controller   =>  'subjects', 
+  :action       =>  'new', 
+  :conditions   =>  {:method  => :get }
+ map.create_subject '/:user_name/:board_url/new',
+  :controller   =>  'subjects', 
+  :action       =>  'create', 
+  :conditions   =>  {:method => :post }  
+ map.subject_page'/:user_name/:board_url/:subject_name', 
+  :controller   =>  'subjects', 
+  :action       =>  'show'
+ map.edit_subject'/:user_name/:board_url/:subject_name/edit',
+  :controller   =>  'subjects',
+  :action       =>  'edit',
+  :conditions   =>  { :method => :get }
+ map.update_subject '/:user_name/:board_url/:subject_name',
+  :controller   =>  'subjects',
+  :action       =>  'update',
+  :conditions   =>  { :method => :put }
+ map.destroy_subject '/:user_name/:board_url/:subject_name/',
+  :controller   =>  'subjects',
+  :action       =>  'destroy',
+  :conditions   => {:method => :delete }
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

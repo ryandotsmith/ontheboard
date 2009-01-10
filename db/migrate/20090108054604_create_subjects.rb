@@ -2,6 +2,7 @@ class CreateSubjects < ActiveRecord::Migration
   def self.up
     create_table :subjects do |t|
       t.string :title
+      t.string :url
       t.belongs_to :board
       t.timestamps
     end

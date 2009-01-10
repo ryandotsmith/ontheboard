@@ -2,6 +2,9 @@
 	<div class="navigation">
 		<%= link_to 'Edit this board', edit_board_url( :user_name => @board.user.login,
 													   :board_url => @board.url) %> 			
+
+		<%= link_to "Add a subject",   new_subject_url() %>	
+
 	</div><!--end navigation-->
 </div><!--end left-->
   
@@ -10,7 +13,7 @@
 		<p><a class="ast">*</a><h3 class="tips">This board is public</h3></p>
 	<% else %>
 		<p><a class="ast">*</a><h3 class="tips">This board is private</h3></p>
-	<% end %>	
+	<% end %>
 </div><!--end right-->
 <div id="center">
 	<h1> 
@@ -18,4 +21,13 @@
 		<%=h @board.title %>
 	</h1>
 	<h2>{ <%= @board.description %> }</h2>
+	<h3>Your Board Subjects </h3>
+	<div id="subjects" class="page_object">
+		<ul class="board_list">
+			<% @board.subjects.each do |subject|%>
+				<li><a><%= subject.title%></a></li>
+			<% end %>
+		</ul>
+	</div><!--end boards-->
+	
 </div><!--end center-->
