@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :tallies
+
   # These routes are defined for the use of restful-authentication
   # 
   map.logout    '/logout',      :controller => 'sessions', :action => 'destroy'

@@ -1,0 +1,28 @@
+<p>
+  <b>Int val:</b>
+  <%=h @tally.int_val %>
+</p>
+
+<p>
+  <b>Str val:</b>
+  <%=h @tally.str_val %>
+</p>
+
+<p>
+  <b>Text val:</b>
+  <%=h @tally.text_val %>
+</p>
+
+<p>
+  <b>Bool val:</b>
+  <%=h @tally.bool_val %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @tally.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_tally_path(@tally) %> |
+<%= link_to 'Back', tallies_path %>

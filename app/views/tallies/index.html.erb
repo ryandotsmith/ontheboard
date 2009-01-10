@@ -1,0 +1,28 @@
+<h1>Listing tallies</h1>
+
+<table>
+  <tr>
+    <th>Int val</th>
+    <th>Str val</th>
+    <th>Text val</th>
+    <th>Bool val</th>
+    <th>User</th>
+  </tr>
+
+<% for tally in @tallies %>
+  <tr>
+    <td><%=h tally.int_val %></td>
+    <td><%=h tally.str_val %></td>
+    <td><%=h tally.text_val %></td>
+    <td><%=h tally.bool_val %></td>
+    <td><%=h tally.user_id %></td>
+    <td><%= link_to 'Show', tally %></td>
+    <td><%= link_to 'Edit', edit_tally_path(tally) %></td>
+    <td><%= link_to 'Destroy', tally, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New tally', new_tally_path %>
