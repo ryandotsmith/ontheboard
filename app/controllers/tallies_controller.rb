@@ -1,51 +1,41 @@
 class TalliesController < ApplicationController
-  # GET /tallies
-  # GET /tallies.xml
-  def index
-    @tallies = Tally.find(:all)
+  before_filter :load_subject
 
+  def tally_board
+    @subject.tallies.create!(:user_id => current_user.id)
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @tallies }
+      format.js
     end
   end
-
-  # GET /tallies/1
-  # GET /tallies/1.xml
+  
   def show
     @tally = Tally.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @tally }
     end
   end
 
-  # GET /tallies/new
-  # GET /tallies/new.xml
   def new
-    @tally = Tally.new
-
+    @tally = @subject.tallies.build
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @tally }
     end
   end
 
-  # GET /tallies/1/edit
   def edit
     @tally = Tally.find(params[:id])
   end
 
-  # POST /tallies
-  # POST /tallies.xml
   def create
-    @tally = Tally.new(params[:tally])
-
+    @tally = @subject.tallies.build(params[:tally])
+    #@tally.user_id = User.find_by_login( current_user ).id || -1
     respond_to do |format|
       if @tally.save
         flash[:notice] = 'Tally was successfully created.'
-        format.html { redirect_to(@tally) }
+        format.html { redirect_to user_board_url(   :user_name => @subject.board.user.login,
+                                                    :board_url => @subject.board.url) }
         format.xml  { render :xml => @tally, :status => :created, :location => @tally }
       else
         format.html { render :action => "new" }
@@ -54,11 +44,8 @@ class TalliesController < ApplicationController
     end
   end
 
-  # PUT /tallies/1
-  # PUT /tallies/1.xml
   def update
     @tally = Tally.find(params[:id])
-
     respond_to do |format|
       if @tally.update_attributes(params[:tally])
         flash[:notice] = 'Tally was successfully updated.'
@@ -71,15 +58,22 @@ class TalliesController < ApplicationController
     end
   end
 
-  # DELETE /tallies/1
-  # DELETE /tallies/1.xml
   def destroy
     @tally = Tally.find(params[:id])
     @tally.destroy
-
     respond_to do |format|
       format.html { redirect_to(tallies_url) }
       format.xml  { head :ok }
     end
   end
-end
+
+protected
+  ####################
+  #load_subject should get
+  #=>
+  # and should return
+  #=>
+  def load_subject
+    @subject = Subject.find_from( params )
+  end
+end# end class 

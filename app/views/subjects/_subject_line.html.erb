@@ -1,0 +1,15 @@
+<li id="<%= subject.url %>">
+
+<a><%= link_to "#{subject.title}", 
+	   show_subject_url( :user_name     =>  board.user.login,
+				  		 :board_url     =>  board.url,
+				  		 :subject_name  =>  subject.url   ) %>
+</a> |
+
+<a><%= subject.tallies.length %></a> | 
+
+<%= link_to_remote "tally",  
+	:url => tally_board_url( :user_name     =>  board.user.login,
+					  		 :board_url     =>  board.url,
+					  		 :subject_name  =>  subject.url  ) %>
+</li>

@@ -5,7 +5,7 @@ describe TalliesController do
   def mock_tally(stubs={})
     @mock_tally ||= mock_model(Tally, stubs)
   end
-  
+=begin  
   describe "responding to GET index" do
 
     it "should expose all tallies as @tallies" do
@@ -27,7 +27,7 @@ describe TalliesController do
     end
 
   end
-
+=end
   describe "responding to GET show" do
 
     it "should expose the requested tally as @tally" do

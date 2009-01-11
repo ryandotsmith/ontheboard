@@ -4,11 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>Welcome Back!</title>
+  <title>Tallies: <%= controller.action_name %></title>
 	<% get_css.each do |tag|%>
 		<%=	stylesheet_link_tag "#{tag}"%>
 	<% end %>
- 
   <%= javascript_include_tag :defaults %>
 
 </head>
@@ -21,6 +20,7 @@
 			<%= flash[:notice]%>
 			<%= flash[:warning]%>
 		</div>
+
 		<%= yield  %>
 	</div>
 	<!---->

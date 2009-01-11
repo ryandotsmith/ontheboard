@@ -1,5 +1,6 @@
 class Subject < ActiveRecord::Base
-  belongs_to :board
+  belongs_to  :board
+  has_many    :tallies
   acts_as_url :title
   
   def to_param

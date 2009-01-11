@@ -1,7 +1,15 @@
-
 module  AnonUser
   
   class Anon
+    attr_accessor :id
+    ####################
+    #initializer should get
+    #=>
+    # and should return
+    #=>
+    def initialize
+      @id = -1
+    end
     ####################
     #has_role? should get
     #=>

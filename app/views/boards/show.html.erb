@@ -25,7 +25,9 @@
 	<div id="subjects" class="page_object">
 		<ul class="board_list">
 			<% @board.subjects.each do |subject|%>
-				<li><a><%= subject.title%></a></li>
+			<%= render :partial => '/subjects/subject_line', 
+			           :locals => {  :board   => @board,
+						             :subject => subject   }%>
 			<% end %>
 		</ul>
 	</div><!--end boards-->

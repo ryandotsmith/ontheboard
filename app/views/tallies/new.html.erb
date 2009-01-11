@@ -1,31 +1,21 @@
-<h1>New tally</h1>
-
-<% form_for(@tally) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :int_val %><br />
-    <%= f.text_field :int_val %>
-  </p>
-  <p>
-    <%= f.label :str_val %><br />
-    <%= f.text_field :str_val %>
-  </p>
-  <p>
-    <%= f.label :text_val %><br />
-    <%= f.text_area :text_val %>
-  </p>
-  <p>
-    <%= f.label :bool_val %><br />
-    <%= f.check_box :bool_val %>
-  </p>
-  <p>
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </p>
-  <p>
-    <%= f.submit "Create" %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', tallies_path %>
+<div id="left">
+	
+</div><!--end left-->
+<div id="right">
+	
+</div><!--end right-->
+<div id="center">
+	<h1>New tally</h1>
+	<ul class="form">
+	<% form_for([@subject,@tally],  :url => { :controller  =>  'tallies',
+											  :action      =>   'create' },
+									:user_name => @subject.board.user.login,
+									:board_url => @subject.board.url,
+									:subject_naem => @subject.url,
+									:html => {:class => 'user_form'}) do |f| %>
+		
+	  <%= f.error_messages %>
+	<li><%= f.submit "Tilly Tally" %></li>
+	<% end %>
+	</ul>
+</div><!--end center-->

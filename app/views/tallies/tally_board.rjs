@@ -1,0 +1,3 @@
+page.replace "#{@subject.url}", :partial => '/subjects/subject_line',
+                                :locals  =>  { :board   => @subject.board,
+                                               :subject => @subject }

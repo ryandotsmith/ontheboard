@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20090110212806) do
     t.text     "text_val"
     t.boolean  "bool_val"
     t.integer  "user_id"
+    t.integer  "subject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

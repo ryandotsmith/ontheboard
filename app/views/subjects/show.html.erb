@@ -1,1 +1,22 @@
-  <%=h @subject.title %>
+<div id="left">
+	
+</div><!--end left-->
+<div id="right">
+	
+</div><!--end right-->
+<div id="center">
+	<h1> 
+		<%= link_to "#{@subject.board.user.login}", 
+					user_page_url(:user_name => @subject.board.user.login)%> : 
+		<%= link_to  "#{@subject.board.title}",
+		 			user_board_url(	:user_name  =>  @subject.board.user.login,
+									:board_url  =>  @subject.board.url )%> : 
+		<%=h @subject.title %>
+	</h1>
+	<h2>{ <%= @subject.board.description %> }</h2>
+	<h3></h3>
+  	<p><%= link_to "tally board", new_tally_url( :user_name => @subject.board.user.login,		
+												 :board_url => @subject.board.url,
+												 :subject_name => @subject.url)%></p>   
+</div><!--end center-->
+
