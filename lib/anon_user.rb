@@ -1,7 +1,7 @@
 module  AnonUser
   
   class Anon
-    attr_accessor :id
+    attr_accessor :id, :login, :name
     ####################
     #initializer should get
     #=>
@@ -9,6 +9,8 @@ module  AnonUser
     #=>
     def initialize
       @id = -1
+      @login = "anonymous"
+      @name  = "Some User"
     end
     ####################
     #has_role? should get

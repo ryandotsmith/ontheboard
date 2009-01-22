@@ -2,10 +2,14 @@ class TalliesController < ApplicationController
   before_filter :load_subject
 
   def tally_board
-    @subject.tallies.create!(:user_id => current_user.id)
-    respond_to do |format|
-      format.js
-    end
+    if @subject.is_exec_by( current_user )
+      @subject.tallies.create!(:user_id => current_user.id)
+      respond_to do |format|
+        format.js
+      end# do
+    else
+      flash[:notice] = " #{current_user.name} does not have permission to tally"
+    end# if 
   end
   
   def show

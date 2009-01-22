@@ -14,9 +14,11 @@
 		<%=h @subject.title %>
 	</h1>
 	<h2>{ <%= @subject.board.description %> }</h2>
-	<h3></h3>
-  	<p><%= link_to "tally board", new_tally_url( :user_name => @subject.board.user.login,		
-												 :board_url => @subject.board.url,
-												 :subject_name => @subject.url)%></p>   
+	<h3>Tallies</h3>
+	<ul>
+		<% @subject.get_users_with_tallies.each do |key,value|%>
+			<li><%= User.find_by_id(key).name %><%=%></li>
+		<% end %>
+	</ul>
 </div><!--end center-->
 

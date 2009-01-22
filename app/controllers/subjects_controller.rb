@@ -23,7 +23,8 @@ class SubjectsController < ApplicationController
   def create
     @subject = @board.subjects.build(params[:subject])
     respond_to do |format|
-      if @subject.save
+      if @subject.save and @subject.make_owner!( current_user )
+        @subject.inherit_permissions 
         flash[:notice] = 'Subject was successfully created.'
         format.html { redirect_to user_board_url( :user_name => @board.user.login, 
                                                   :board_url => @board.url) }

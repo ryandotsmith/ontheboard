@@ -4,6 +4,7 @@ class CreateSubjects < ActiveRecord::Migration
       t.string :title
       t.string :url
       t.belongs_to :board
+      t.boolean :is_public
       t.timestamps
     end
   end

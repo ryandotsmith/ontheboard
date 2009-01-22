@@ -1,6 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../factories/user_factory')
-require File.expand_path(File.dirname(__FILE__) + '/../factories/board_factory')
+
+["subject","board","user"].each do |f|
+  require File.expand_path(File.dirname(__FILE__) + "/../factories/#{f}_factory")
+end
 
 describe Board do
   before(:each) do

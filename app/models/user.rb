@@ -5,7 +5,14 @@ class User < ActiveRecord::Base
   acts_as_authorized_user
   has_one  :page
   has_many :boards
-  
+  ####################
+  #find_from should get
+  #=>
+  # and should return
+  #=>
+  def self.find_or( on, with )
+    User.send("find_by_#{ on }".to_sym, with) || AnonUser::Anon.new
+  end
 #################################
   include Authentication
   include Authentication::ByPassword

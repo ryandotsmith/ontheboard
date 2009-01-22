@@ -27,7 +27,7 @@ describe TalliesController do
     end
 
   end
-=end
+
   describe "responding to GET show" do
 
     it "should expose the requested tally as @tally" do
@@ -169,5 +169,5 @@ describe TalliesController do
     end
 
   end
-
+=end
 end

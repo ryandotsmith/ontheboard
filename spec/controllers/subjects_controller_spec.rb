@@ -124,7 +124,7 @@ describe SubjectsController do
         @board.should_receive(:user).and_return( @user )
         @user.should_receive(:login).and_return( 'ryan' )
         @board.should_receive(:url).and_return( 'eats-fish' )
-        
+        @subject.should_receive(:make_owner!).and_return( true )
         @subject.should_receive(:save).and_return( true )
         post :create, :subject => {:these => 'params'},:user_name => "ryan", :board_url => "eats-fish"
         assigns(:subject).should equal(mock_subject)
@@ -137,7 +137,7 @@ describe SubjectsController do
         @board.should_receive(:user).and_return( @user )
         @user.should_receive(:login).and_return( 'ryan' )
         @board.should_receive(:url).and_return( 'eats-fish' )
-
+        @subject.should_receive(:make_owner!).and_return( true )
         @subject.should_receive(:save).and_return( true )  
         post :create, :subject => {:these => 'params'},:user_name => "ryan", :board_url => "eats-fish"
         response.should redirect_to(user_board_url)
