@@ -28,6 +28,48 @@ class Board < ActiveRecord::Base
     self.save!
   end
   ####################
+  #authorize( user, action) should get
+  #=>
+  # and should return
+  #=>
+  def authorize( user, action )
+    #if self.inherits
+    #  return( board.authorize( user, action ) )
+    #else
+      return true if ( self.is_public && ( (action == :read) || (action == :execute) ) ) 
+      case action
+      when :read
+        self.accepts_role?(:owner, user ) ||
+        self.accepts_role?(:subscriber, user) ||
+        self.accepts_role?(:reader, user ) 
+      when :execute
+        self.accepts_role?(:owner, user ) ||
+        self.accepts_role?(:subscriber, user)         
+      when :write
+        self.accepts_role?(:owner, user )        
+      end# case 
+    #end# if 
+  end#def
+  ####################
+  #allow( user, action ) should get
+  #=>
+  # and should return
+  #=>
+  def allow!( user, action )
+    case action
+    when :read
+        self.accepts_role :reader, user 
+    when :execute
+        self.accepts_role :reader, user
+        self.accepts_role :subscriber, user
+    when :write    
+        self.accepts_role :reader, user
+        self.accepts_role :subscriber, user
+        self.accepts_role :owner, user
+    end# case
+  end# def
+  
+  ####################
   #is_readable_by( user ) should get
   #=> the current user in the session
   # and should return true if the user can read

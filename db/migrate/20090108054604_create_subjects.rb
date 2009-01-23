@@ -5,6 +5,7 @@ class CreateSubjects < ActiveRecord::Migration
       t.string :url
       t.belongs_to :board
       t.boolean :is_public
+      t.boolean :inherits , :default => false
       t.timestamps
     end
   end

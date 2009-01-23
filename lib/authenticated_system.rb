@@ -1,9 +1,11 @@
 module AuthenticatedSystem
+  #!!! AnonUser added by RRS
   include AnonUser
   protected
     # Returns true or false if the user is logged in.
     # Preloads @current_user with the user model if they're logged in.
     def logged_in?
+      #!!! I added this if-then -RRS
       if current_user.is_a?(AnonUser::Anon)
         return false
       else
@@ -13,6 +15,7 @@ module AuthenticatedSystem
 
     # Accesses the current user from the session.
     # Future calls avoid the database because nil is not equal to false.
+    #!!! The current user will return an anon_user if nothing else is found -RRS
     def current_user
       @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || get_anon_user) unless @current_user == false
     end
@@ -37,6 +40,7 @@ module AuthenticatedSystem
     #  end
     #
     # if the current user is anon they are certainly not authorized
+    #!!! The current user will return an anon_user if nothing else is found -RRS
     def authorized?(action = action_name, resource = nil)
       if current_user.is_a?(AnonUser::Anon)
         false

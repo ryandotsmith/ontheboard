@@ -20,7 +20,7 @@ Feature: Tally Board
 		When i try to edit the board
 		Then i should receive an error
 	
-	Scenario: User views a public board
+	Scenario: Non Privileged User views a public board
 		Given i am logged in 
 		And i am not the owner of a board 
 		And i have not been granted read access to the board
@@ -28,10 +28,28 @@ Feature: Tally Board
 		When i read the board
 		Then i should see the title 
 	
-	Scenario: User views a private board
+	Scenario: Non Privileged User views a private board
 		Given i am logged in 
 		And i am not the owner of the board 
 		And i have not been added granted read access to the board
 		And the board is not marked as public 
 		When i read the board 
 		Then i should receive an error 
+
+	Scenario: User has read access views a private board
+		Given i am logged in 
+		And i am not the owner of the board 
+		And i am a reader of the board
+		When i access the board
+		Then i should see the board 
+		And i should not see any admin links
+	
+	Scenario: User has subscriber access to a private board
+		Given i am logged in 
+		And i am not the owner of the board 
+		And i am a reader of the board 
+		And i am a subscriber of the board 
+		When i access the board 
+		Then i should see the board 
+		And i should not see admin links
+		And i should see subscriber links 

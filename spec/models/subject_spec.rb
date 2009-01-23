@@ -40,7 +40,7 @@ describe "Building a new subject on a board" do
   
 end# end describe
 
-describe "Checking Permissions " do
+describe "Checking Inherit Permissions " do
 
   before(:each) do 
     @user       =   Factory( :user    )
@@ -49,38 +49,116 @@ describe "Checking Permissions " do
     @board.subjects << @subject
   end# before
 
-  it "should allow anyone to write if board is public and subject is public" do
+  it "should inherit permissions and allow board reader" do
     @board.save! if @board.is_public = true
-    @subject.inherit_permissions!
-    @subject.is_exec_by( @user ).should eql( true )
+    @subject.inherit_permissions! and @subject.inherits.should eql( true )
+    @user.can(:read, @board).should eql( true )
+    @user.can(:read, @subject).should eql( true )
+    @user.can(:execute, @subject).should eql( true )
+    @user.can(:write,@subject).should eql( false)
   end# it
 
-  it "should deny anyone to write if board is private and board is private" do
+  it "should inherit permissions and deny a board reader" do
     @board.save! if @board.is_public = false
-    @subject.inherit_permissions!
-    @subject.is_exec_by( @user ).should eql( false )    
+    @subject.inherit_permissions! and @subject.inherits.should eql( true )
+    @user.can(:read, @board).should eql( false )
+    @subject.allow!( @user, :read )
+    @user.can(:read, @subject).should eql( true )
   end
   
-  it "should allow user exec on subject if  user is subscriber when board & subject == private" do
+  it "should give the user exec access to subject if the board says user is subscriber" do
     @board.save! if @board.is_public = false
-    @subject.inherit_permissions!
-    # before
-    @subject.is_exec_by( @user ).should eql( false ) 
-    #
-    @subject.make_subscriber!( @user )
-    # after
-    @subject.is_exec_by( @user ).should eql( true )
+    @subject.inherit_permissions! and @subject.inherits.should eql( true )
+    
+    @user.can(:read, @board).should eql( false )
+    @user.can(:execute, @board).should eql( false )
+    @user.can(:write, @board).should eql( false )
+
+    @user.can(:read, @subject).should eql( false )
+    @user.can(:execute, @subject).should eql( false )
+    @user.can(:write, @subject).should eql( false )
+
+    @board.allow!( @user, :execute) and @board.accepts_role?( :subscriber, @user).should eql( true )
+
+    @user.can(:read, @board).should eql( true )
+    @user.can(:execute, @board).should eql( true )
+    @user.can(:write, @board).should eql( false )
+    
+    @user.can(:read, @subject).should eql( true )
+    @user.can(:execute, @subject).should eql( true )
+    @user.can(:write, @subject).should eql( false )
+    
   end
-  
-  it "should allow user to read board after user is made readable by subject on a board & subject private" do
+
+  it "should give user write access to subject if the board says that user is owner" do
     @board.save! if @board.is_public = false
-    @subject.inherit_permissions!
-    # before
-    @subject.is_readable_by( @user ).should eql( false )
-    #
-    @subject.make_reader!( @user )
-    #after
-    @subject.is_readable_by( @user ).should eql( true )
+    @subject.inherit_permissions! and @subject.inherits.should eql( true )
+    
+    @user.can(:read, @board).should eql( false )
+    @user.can(:execute, @board).should eql( false )
+    @user.can(:write, @board).should eql( false )
+
+    @user.can(:read, @subject).should eql( false )
+    @user.can(:execute, @subject).should eql( false )
+    @user.can(:write, @subject).should eql( false )
+
+    @board.allow!( @user, :write) and @board.accepts_role?( :owner, @user).should eql( true )
+
+    @user.can(:read, @board).should eql( true )
+    @user.can(:execute, @board).should eql( true )
+    @user.can(:write, @board).should eql( true )
+    
+    @user.can(:read, @subject).should eql( true )
+    @user.can(:execute, @subject).should eql( true )
+    @user.can(:write, @subject).should eql( true )
+    
+
   end
-  
+
+  it "should reset inheritance on a subject when permissions are set local" do
+    @board.save! if @board.is_public = false
+    @subject.inherit_permissions! and @subject.inherits.should eql( true )    
+    @board.allow!( @user, :execute) and @board.accepts_role?( :subscriber, @user).should eql( true )
+
+    @user.can(:read, @board).should eql( true )
+    @user.can(:execute, @board).should eql( true )
+    @user.can(:write, @board).should eql( false )
+    
+    @user.can(:read, @subject).should eql( true )
+    @user.can(:execute, @subject).should eql( true )
+    @user.can(:write, @subject).should eql( false )
+    
+    @subject.allow!( @user, :read) and @subject.accepts_role?( :reader, @user).should eql( true )
+
+    @user.can(:read, @board).should eql( true )
+    @user.can(:execute, @board).should eql( true )
+    @user.can(:write, @board).should eql( false )
+    
+    @user.can(:read, @subject).should eql( true )
+    @user.can(:execute, @subject).should eql( false )
+    @user.can(:write, @subject).should eql( false )
+
+  end
 end# desc
+
+describe "Authorizing a user to act on subject" do
+
+  before(:each) do 
+    @user       =   Factory( :user    )
+    @board      =   Factory( :board   )
+    @subject    =   Factory( :subject )
+    @board.subjects << @subject
+  end#before
+
+
+  it "should first see if the board is public" do
+    @subject.is_public = true and @subject.is_public.should eql( true )
+    @subject.inherits  = false and @board.inherits.should eql( false )
+    @subject.authorize( @user, :read ).should eql( true )
+    @subject.authorize( @user, :execute).should eql( true )
+    @subject.authorize( @user, :write).should eql( false )
+  end#it
+
+
+end#des
+

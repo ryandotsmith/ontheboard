@@ -61,6 +61,17 @@ class User < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
+  ####################
+  #can should get 
+  #=> an action and an obect.
+  # I am hoping that this method gets called from a User. 
+  # and should return
+  #=> true if the padlock for the object opens. 
+  def can( action, object)
+    object.authorize( self, action)
+  end#def
+
+
   protected
     
     def make_activation_code

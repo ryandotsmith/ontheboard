@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20090110212806) do
     t.string   "url"
     t.integer  "board_id"
     t.boolean  "is_public"
+    t.boolean  "inherits",   :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
