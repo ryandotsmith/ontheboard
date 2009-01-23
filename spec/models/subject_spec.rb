@@ -115,30 +115,67 @@ describe "Checking Inherit Permissions " do
 
   end
 
-  it "should reset inheritance on a subject when permissions are set local" do
-    @board.save! if @board.is_public = false
-    @subject.inherit_permissions! and @subject.inherits.should eql( true )    
-    @board.allow!( @user, :execute) and @board.accepts_role?( :subscriber, @user).should eql( true )
+  describe "Overriding board permissions for a subject" do
 
-    @user.can(:read, @board).should eql( true )
-    @user.can(:execute, @board).should eql( true )
-    @user.can(:write, @board).should eql( false )
+    it "should reset inheritance on a subject when permissions are set local" do
+      @board.save! if @board.is_public = false
+      @subject.inherit_permissions! and @subject.inherits.should eql( true )    
+      @subject.allow!( @user, :read )
+      @subject.inherits.should eql( false )
+    end
     
-    @user.can(:read, @subject).should eql( true )
-    @user.can(:execute, @subject).should eql( true )
-    @user.can(:write, @subject).should eql( false )
-    
-    @subject.allow!( @user, :read) and @subject.accepts_role?( :reader, @user).should eql( true )
+    it " board[write] -> subject[read]" do
 
-    @user.can(:read, @board).should eql( true )
-    @user.can(:execute, @board).should eql( true )
-    @user.can(:write, @board).should eql( false )
+      @board.save! if @board.is_public = false
+      @subject.inherit_permissions! and @subject.inherits.should eql( true )    
+      @board.allow!( @user, :write )
+      @user.can(:write, @board).should eql( true )
+      @user.can(:write, @subject).should eql( true )
+      @subject.allow!( @user, :read)
+      @user.can(:write, @board).should eql( true )
+      @user.can(:write, @subject).should eql( false )
+      @user.can(:read, @subject).should eql( true )
+      
+    end
+  
+    it " board[execute] -> subject[read] " do
+      @board.save! if @board.is_public = false
+      @subject.inherit_permissions! and @subject.inherits.should eql( true )    
+      @board.allow!( @user, :execute )
+      @user.can(:execute, @board).should eql( true )
+      @user.can(:execute, @subject).should eql( true )
+      @subject.allow!( @user, :read)
+      @user.can(:execute, @board).should eql( true )
+      @user.can(:execute, @subject).should eql( false )
+      @user.can(:read, @subject).should eql( true )
+      
+    end
     
-    @user.can(:read, @subject).should eql( true )
-    @user.can(:execute, @subject).should eql( false )
-    @user.can(:write, @subject).should eql( false )
+    it " board[read] -> subject[read] " do
+      @board.save! if @board.is_public = false
+      @subject.inherit_permissions! and @subject.inherits.should eql( true )    
+      @board.allow!( @user, :read )
+      @user.can(:read, @board).should eql( true )
+      @user.can(:read, @subject).should eql( true )
+      @subject.allow!( @user, :read)
+      @user.can(:read, @board).should eql( true )
+      @user.can(:read, @subject).should eql( true )
+      
+    end
+    
+    it " board[write] -> subject[execute]" do
+      
+    end
+    
+    it "board[execute] -> subject[execute]" do
+      
+    end
 
-  end
+    it "board[read] -> subject[execute]" do
+      
+    end
+  end#desc
+
 end# desc
 
 describe "Authorizing a user to act on subject" do
