@@ -1,10 +1,22 @@
 class BoardsController < ApplicationController
   ###########################
-  before_filter :load_user, :except => [:index]
+  before_filter :load_user, :except => [:index,:update_board_permissions]
   before_filter :redirect_if_anon, :only => [:new,:create,:edit]
   padlock(:on => :show) { can_look(@user,Board.find_from( params )) }
   padlock(:on => [:edit,:update,:destroy]) { Board.find_from( params ).is_writeable_by( @user ) }  
   ###########################
+  ####################
+  #update_permissions should get
+  #=>
+  # and should return
+  #=>
+  def update_board_permissions
+    @board = Board.find(params[:board_id])
+    @us    = User.find_by_login(params[:user][:login].strip!) 
+    @ac    = params[:level]
+    #debugger
+    @board.allow!( @us, @ac.to_sym )
+  end
 
   def index
     @boards = Board.find(:all)

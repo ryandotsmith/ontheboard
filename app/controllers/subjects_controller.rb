@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
   ######################################
   before_filter :load_board 
-  
+
   ######################################
 
   def show

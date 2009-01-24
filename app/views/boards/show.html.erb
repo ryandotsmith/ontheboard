@@ -15,6 +15,10 @@
 	<% else %>
 		<p><a class="ast">*</a><h3 class="tips">This board is private</h3></p>
 	<% end %>
+	<h3>Subscribers</h3>
+	<% @board.accepts_who_with_role( :subscriber ).each do |subscriber|%>
+		<%= subscriber.login %>
+	<% end %>
 </div><!--end right-->
 <div id="center">
 	<h1> 

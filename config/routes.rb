@@ -7,7 +7,6 @@ ActionController::Routing::Routes.draw do |map|
   map.register  '/register',    :controller => 'users',    :action => 'create'
   map.signup    '/signup',      :controller => 'users',   :action => 'new'
   map.activate  '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil 
-  
   map.resources :users, :member => { :suspend   => :put,
                                      :unsuspend => :put,
                                      :purge     => :delete },
@@ -21,12 +20,27 @@ ActionController::Routing::Routes.draw do |map|
  #map.resources :pages
  #map.resources :subjects, :only =>  [ :new, :create, :destroy ]
  #map.resources :tallies
- 
+ map.search_user '/search',
+ :controller  => 'users', 
+ :action      => 'search',
+ :conditions  => {:method => :get}
  map.user_page   '/:user_name',                  :controller => 'pages',  :action => 'show' 
 
- map.user_board  '/:user_name/:board_url',       :controller => 'boards', :action => 'show',   :conditions => { :method => :get }
- map.edit_board  '/:user_name/:board_url/edit',  :controller => 'boards', :action => 'edit',   :conditions => { :method => :get }
- map.update_board'/:user_name/:board_url',       :controller => 'boards', :action => 'update', :conditions => { :method => :put }
+ map.user_board  '/:user_name/:board_url',       
+ :controller => 'boards', 
+ :action => 'show',   
+ :conditions => { :method => :get }
+ map.edit_board  '/:user_name/:board_url/edit',  
+ :controller => 'boards', 
+ :action => 'edit',   
+ :conditions => { :method => :get }
+ map.update_board'/:user_name/:board_url',       
+ :controller => 'boards', 
+ :action => 'update', 
+ :conditions => { :method => :put }
+ map.update_board_permissions '/:user_name/:board_url/update_board_permissions',
+  :controller   =>  'boards',
+  :action       =>  'update_board_permissions'
 ############################
 # Subject
 #

@@ -60,8 +60,8 @@ class Board < ActiveRecord::Base
     when :read
         self.accepts_role :reader, user 
     when :execute
-        self.accepts_role :reader, user
-        self.accepts_role :subscriber, user
+        self.accepts_role( :reader, user )
+        self.accepts_role( :subscriber, user)
     when :write    
         self.accepts_role :reader, user
         self.accepts_role :subscriber, user

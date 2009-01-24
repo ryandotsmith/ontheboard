@@ -3,7 +3,17 @@ class UsersController < ApplicationController
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
   
-
+  ####################
+  #index should get
+  #=>
+  # and should return
+  #=>
+  def search
+    @users = User.find(:all, :conditions => ['login LIKE ?', "%#{params[:search]}%"])
+    respond_to do |format|
+      format.js 
+    end
+  end
   # render new.rhtml
   def new
     @user = User.new
