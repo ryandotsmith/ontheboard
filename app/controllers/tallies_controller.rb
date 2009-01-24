@@ -1,8 +1,9 @@
 class TalliesController < ApplicationController
-  before_filter :load_subject
 
+  before_filter :load_subject
+  
   def tally_board
-    if @subject.is_exec_by( current_user )
+    if current_user.can(:execute, @subject )
       @subject.tallies.create!(:user_id => current_user.id)
       respond_to do |format|
         format.js

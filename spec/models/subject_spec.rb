@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-["subject","board","user"].each do |f|
+["subject","board","user","tally"].each do |f|
   require File.expand_path(File.dirname(__FILE__) + "/../factories/#{f}_factory")
 end
 
@@ -128,7 +128,7 @@ describe "Checking Inherit Permissions " do
 
       @board.save! if @board.is_public = false
       @subject.inherit_permissions! and @subject.inherits.should eql( true )    
-      @board.allow!( @user, :write )
+      @board.allow!( @user, :write)
       @user.can(:write, @board).should eql( true )
       @user.can(:write, @subject).should eql( true )
       @subject.allow!( @user, :read)
@@ -154,10 +154,14 @@ describe "Checking Inherit Permissions " do
     it " board[read] -> subject[read] " do
       @board.save! if @board.is_public = false
       @subject.inherit_permissions! and @subject.inherits.should eql( true )    
+
       @board.allow!( @user, :read )
+
       @user.can(:read, @board).should eql( true )
       @user.can(:read, @subject).should eql( true )
+
       @subject.allow!( @user, :read)
+
       @user.can(:read, @board).should eql( true )
       @user.can(:read, @subject).should eql( true )
       
@@ -199,3 +203,23 @@ describe "Authorizing a user to act on subject" do
 
 end#des
 
+describe "getting users who have tallied on subject" do
+  
+  before(:each) do 
+    @user_0     =   Factory( :user, :id => 12, :login => "whatman"    )
+    @user_1     =   Factory( :user, :id => 14, :login => "whoman", :email => "who@gmail.com")
+    @board      =   Factory( :board   )
+    @subject    =   Factory( :subject )
+    @board.subjects << @subject
+    @t1         =   Factory( :tally, :user_id => 12 )
+    @t2         =   Factory( :tally, :user_id => 12 )
+    @t3         =   Factory( :tally, :user_id => 14 )
+    @subject.tallies << @t1
+    @subject.tallies << @t2
+    @subject.tallies << @t3
+  end#before
+  
+  it "should return hash with user login as key and tally count as value" do
+    @subject.get_tallies_with_users.should == {:whatman => 2, :whoman => 1}
+  end
+end

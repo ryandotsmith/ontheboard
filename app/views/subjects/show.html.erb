@@ -16,8 +16,8 @@
 	<h2>{ <%= @subject.board.description %> }</h2>
 	<h3>Tallies</h3>
 	<ul>
-		<% @subject.get_users_with_tallies.each do |key,value|%>
-			<li><%= User.find_by_id(key).name %><%=%></li>
+		<% @subject.get_tallies_with_users.each do |key,value|%>
+		<li><%= key.to_s + "=>" + value.to_s%></li>
 		<% end %>
 	</ul>
 </div><!--end center-->

@@ -5,7 +5,11 @@ class SubjectsController < ApplicationController
   ######################################
 
   def show
-    @subject = Subject.find_from( params )
+   @subject = Subject.find_from( params )
+   unless current_user.can(:read, @subject )
+    flash[:notice] = "You do not have read access! "
+    redirect_to :back
+   end
   end
 
   def new
@@ -23,8 +27,8 @@ class SubjectsController < ApplicationController
   def create
     @subject = @board.subjects.build(params[:subject])
     respond_to do |format|
-      if @subject.save and @subject.make_owner!( current_user )
-        @subject.inherit_permissions 
+      if @subject.save
+        @subject.allow!(current_user,:write) unless @subject.inherits
         flash[:notice] = 'Subject was successfully created.'
         format.html { redirect_to user_board_url( :user_name => @board.user.login, 
                                                   :board_url => @board.url) }

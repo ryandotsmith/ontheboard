@@ -23,6 +23,10 @@
 	    <%= f.text_field :title %>
 		</li>
 		<li>
+		<%= f.label "Inherit Permissions" %>
+		<%= f.check_box :inherits %>
+		</li>
+		<li>
 	    <%= f.submit "Create" %>
 		</li>
 	<% end %>

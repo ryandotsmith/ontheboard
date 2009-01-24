@@ -117,31 +117,60 @@ describe SubjectsController do
     end# end before     
     describe "with valid params" do
       
-      it "should expose a newly created subject as @subject" do
+      it "should expose a newly created subject as @subject and does not inherti" do
         @user     = mock_model User
         @params   = get_params( "create" )
         Board.should_receive(:find_from).exactly(1).times.with(@params).and_return(@board)
         @board.should_receive(:user).and_return( @user )
         @user.should_receive(:login).and_return( 'ryan' )
         @board.should_receive(:url).and_return( 'eats-fish' )
-        @subject.should_receive(:make_owner!).and_return( true )
+        @subject.should_receive(:inherits).and_return( false )
+        @subject.should_receive(:allow!).and_return( true )
         @subject.should_receive(:save).and_return( true )
         post :create, :subject => {:these => 'params'},:user_name => "ryan", :board_url => "eats-fish"
         assigns(:subject).should equal(mock_subject)
       end
 
-      it "should redirect to the created subject" do
+      it "should redirect to the created subject and does not inherti" do
         @user     = mock_model User
         @params   = get_params( "create" )
         Board.should_receive(:find_from).exactly(1).times.with(@params).and_return(@board)
         @board.should_receive(:user).and_return( @user )
         @user.should_receive(:login).and_return( 'ryan' )
         @board.should_receive(:url).and_return( 'eats-fish' )
-        @subject.should_receive(:make_owner!).and_return( true )
+        @subject.should_receive(:inherits).and_return( false )
+        @subject.should_receive(:allow!).and_return( true )
         @subject.should_receive(:save).and_return( true )  
         post :create, :subject => {:these => 'params'},:user_name => "ryan", :board_url => "eats-fish"
         response.should redirect_to(user_board_url)
       end
+      
+      it "should expose a newly created subject as @subject and does inherti" do
+        @user     = mock_model User
+        @params   = get_params( "create" )
+        Board.should_receive(:find_from).exactly(1).times.with(@params).and_return(@board)
+        @board.should_receive(:user).and_return( @user )
+        @user.should_receive(:login).and_return( 'ryan' )
+        @board.should_receive(:url).and_return( 'eats-fish' )
+        @subject.should_receive(:inherits).and_return( true )
+        @subject.should_receive(:save).and_return( true )
+        post :create, :subject => {:these => 'params'},:user_name => "ryan", :board_url => "eats-fish"
+        assigns(:subject).should equal(mock_subject)
+      end
+
+      it "should redirect to the created subject and does inherti" do
+        @user     = mock_model User
+        @params   = get_params( "create" )
+        Board.should_receive(:find_from).exactly(1).times.with(@params).and_return(@board)
+        @board.should_receive(:user).and_return( @user )
+        @user.should_receive(:login).and_return( 'ryan' )
+        @board.should_receive(:url).and_return( 'eats-fish' )
+        @subject.should_receive(:inherits).and_return( true )
+        @subject.should_receive(:save).and_return( true )  
+        post :create, :subject => {:these => 'params'},:user_name => "ryan", :board_url => "eats-fish"
+        response.should redirect_to(user_board_url)
+      end
+      
       
     end
     

@@ -13,11 +13,16 @@ class Subject < ActiveRecord::Base
   #=>
   # and should return
   #=>
-  def get_users_with_tallies
+  def get_tallies_with_users
     results = Hash.new
-    tallies.each  do |tally|
-      results[tally.user_id] += 1
-    end
+    tallies.each do |tally|
+      user_login = User.find(tally.user_id).login.to_sym
+      unless results[user_login]
+        results[user_login] = 1
+      else
+        results[user_login] += 1
+      end
+    end#do
     results
   end
   ####################
@@ -75,7 +80,7 @@ class Subject < ActiveRecord::Base
     self.inherits = false
     case action
     when :read
-        self.accepts_role :reader, user 
+        self.accepts_role :reader, user
     when :execute
         self.accepts_role :reader, user
         self.accepts_role :subscriber, user

@@ -1,0 +1,13 @@
+<h3><%= page.user.name%>'s Boards</h3>
+<div id="boards" class="page_object">
+	<ul class="board_list">
+		<% @page.user.boards.each do |board|%>
+			<% if current_user.can(:read, board)%>
+			<li>
+			<%= link_to "#{board.title}", user_board_url( :user_name => @page.user.login,
+														  :board_url => board.url) %>
+			</li>
+			<% end %><!-- end if current_user -->
+		<% end %>
+	</ul>
+</div><!--end boards-->

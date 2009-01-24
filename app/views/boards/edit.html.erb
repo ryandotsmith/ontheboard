@@ -2,7 +2,10 @@
 	
 </div><!--end left-->
 <div id="right">
-	
+	<div class="navigation">
+		<h3>Grant User Permission</h3>
+		<%= render :partial => 'users/search_for_user'%>
+	</div><!--end navigation-->
 </div><!--end right-->
 <div id="center">
 	<ul class="form">
@@ -10,7 +13,7 @@
 				:url  => {  :action => 'update',
 							:user_name => @board.user.login,
 						    :board_url => @board.url	},
-				:html => {:class => 'user_form'}) do |f| %>
+				:html => {:class => 'user_form', :id => 'edit_board'}) do |f| %>
 	  <%= f.error_messages %>
 		<li>
 	    <%= f.label :title %>
@@ -29,8 +32,8 @@
 	    <%= f.submit "Update" %>
 		<li>
 		<li class="cancel">
-		<%= link_to "Cancel", user_board_url(:user_name => @board.user.login,
-										:board_url => @board.url)%>
+		<%= link_to "Cancel", user_board_url( :user_name => @board.user.login,
+										      :board_url => @board.url)%>
 		</li>
 	<% end %>
 	</ul>

@@ -1,10 +1,11 @@
 <div id="left">
 	<div class="navigation">
+		<% if current_user.can(:write, @board)%>
 		<%= link_to 'Edit this board', edit_board_url( :user_name => @board.user.login,
 													   :board_url => @board.url) %> 			
 
 		<%= link_to "Add a subject",   new_subject_url() %>	
-
+		<% end %>
 	</div><!--end navigation-->
 </div><!--end left-->
   
@@ -25,9 +26,11 @@
 	<div id="subjects" class="page_object">
 		<ul class="board_list">
 			<% @board.subjects.each do |subject|%>
-			<%= render :partial => '/subjects/subject_line', 
-			           :locals => {  :board   => @board,
-						             :subject => subject   }%>
+				<% if current_user.can(:read, subject )%>
+					<%= render :partial => '/subjects/subject_line', 
+			           		   :locals  => {  :board   => @board,
+						       :subject => subject   }%>
+				<% end %>
 			<% end %>
 		</ul>
 	</div><!--end boards-->
