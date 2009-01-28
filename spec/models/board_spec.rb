@@ -27,9 +27,9 @@ describe "Creating a public board" do
   ###############
 
   it "should add the creating user as an owner of the board." do
-    @board.is_writeable_by( @owner ).should eql( false )
-    @board.make_owner!( @owner )
-    @board.is_writeable_by( @owner ).should eql( true )
+    @owner.can(:write, @board).should eql( false )
+    @board.allow!(@owner, :write)
+    @owner.can(:write, @board).should eql( true )
   end
   
   it "should be findable based on owner object." do
@@ -38,15 +38,15 @@ describe "Creating a public board" do
   end
   
   it "should deny any other user write access to the board." do
-    @board.is_writeable_by( @guest ).should eql( false )
+    @guest.can(:write, @board).should eql( false )
   end
   
   it "should allow a guest to read the board" do
-    @board.is_readable_by( @guest ).should eql( true )
+    @guest.can(:read, @board).should eql( true )
   end
   
   it "should allow a guest to execute something on the board" do
-    @board.is_exec_by( @guest ).should eql( true )
+    @guest.can(:execute, @board).should eql( true )
   end
 end
 
@@ -60,9 +60,9 @@ describe "Creating a private board" do
   ###############
   
   it "should add the creating user as an owner of the board." do
-    @board.is_writeable_by( @owner ).should eql( false )
-    @board.make_owner!( @owner )
-    @board.is_writeable_by( @owner ).should eql( true )
+    @owner.can( :write, @board).should eql( false )
+    @board.allow!( @owner, :write)
+    @owner.can( :write , @board).should eql( true )
   end
   
   it "should be findable based on owner object." do
@@ -71,15 +71,15 @@ describe "Creating a private board" do
   end
   
   it "should deny any other user write access to the board." do
-    @board.is_writeable_by( @guest ).should eql( false )
+    @guest.can(:write, @board).should eql( false )
   end
 
   it "should deny any other user read access to the board." do
-    @board.is_readable_by( @guest ).should eql( false )
+    @guest.can( :read, @board).should eql( false )
   end
   
   it "should deny any other user trying to execute an action on the board." do
-    @board.is_exec_by( @guest ).should eql( false )
+    @guest.can(:execute, @board).should eql( false )
   end
 
 end
@@ -94,14 +94,27 @@ describe "Giving a user permission to a board" do
   end
   ###############
   it "should add a user as a subscriber " do
-    @guest.has_role?(  :subscriber, @board ).should eql( false )
-    @board.is_exec_by( @guest ).should eql( false )
-    @board.is_exec_by( @unknown ).should eql( false )
-    #
-    @board.make_subscriber!( @guest )
-    #
-    @guest.has_role?(  :subscriber, @board ).should eql( true )
-    @board.is_exec_by( @guest ).should eql( true )
-    @board.is_exec_by( @unknown ).should eql( false )
+    @guest.can( :execute, @board).should eql( false )
+    @board.allow!( @guest, :execute)
+    @guest.can( :execute, @board).should eql( true )
   end
+end
+
+describe "Get a list of users with permissions on a board" do
+  ###############
+  before(:each) do
+    @unknown  = Factory( :user, :name => "Todd Billings")
+    @guest    = Factory( :user, :name => "Jim Whiteknuckle")
+    @owner    = Factory( :user, :name => "Ron Arbuckle")
+    @board    = Factory( :board, :user_id => @owner.id, :is_public => false) 
+  end
+  ###############
+  it "should return a hash of users and their permission levels " do
+    @owner.can(:write,@board)
+    @guest.can(:execute,@board)
+    @unknown.can(:read,@board)
+    @board.list_permissions.should  eql( { @owner   => [ :read, :write, :execute ],
+                                           @guest   => [ :read, :execute ],
+                                           @unknown => [ :read ]} )
+ end
 end

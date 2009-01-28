@@ -2,8 +2,9 @@ class BoardsController < ApplicationController
   ###########################
   before_filter :load_user, :except => [:index,:update_board_permissions]
   before_filter :redirect_if_anon, :only => [:new,:create,:edit]
-  padlock(:on => :show) { can_look(@user,Board.find_from( params )) }
-  padlock(:on => [:edit,:update,:destroy]) { Board.find_from( params ).is_writeable_by( @user ) }  
+  padlock(:on => :show) { @user.can :read , Board.find_from( params ) }
+  padlock(:on => [:edit,:update,:destroy]) { @user.can :write, Board.find_from( params ) }  
+
   ###########################
   ####################
   #update_permissions should get
@@ -12,7 +13,7 @@ class BoardsController < ApplicationController
   #=>
   def update_board_permissions
     @board = Board.find(params[:board_id])
-    @us    = User.find_by_login(params[:user][:login].strip!) 
+    @us    = User.find_by_login(params[:user][:login]) 
     @ac    = params[:level]
     #debugger
     @board.allow!( @us, @ac.to_sym )
@@ -48,7 +49,7 @@ class BoardsController < ApplicationController
 
   def create
     @board = @user.boards.build(params[:board])
-    @board.make_owner!( @user )
+    @board.allow!(@user, :write )
     respond_to do |format|
       if @board.save
         flash[:notice] = 'Board was successfully created.'
