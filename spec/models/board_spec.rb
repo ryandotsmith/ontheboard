@@ -1,3 +1,4 @@
+require 'facets/dictionary'
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 ["subject","board","user"].each do |f|
@@ -110,11 +111,16 @@ describe "Get a list of users with permissions on a board" do
   end
   ###############
   it "should return a hash of users and their permission levels " do
+    @results = Dictionary.new
+    @results[@owner.login.to_sym]   = [ "reader", "subscriber","owner" ]
+    @results[@guest.login.to_sym]   = [ "reader", "subscriber" ]
+    @results[@unknown.login.to_sym] = [ "reader" ]
+
     @board.allow!(   @owner,   :write  )  
     @board.allow!(   @guest,   :execute )
     @board.allow!(   @unknown, :read   )
-    @board.list_permissions.should  == ( { @owner.login.to_sym   => [ "read", "write", "execute" ],
-                                           @guest.login.to_sym   => [ "read", "execute" ],
-                                           @unknown.login.to_sym => [ "read" ]} )
+    @board.list_permissions.should ==  @results 
  end
 end
+
+

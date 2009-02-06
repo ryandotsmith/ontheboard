@@ -79,11 +79,13 @@ class Board < ActiveRecord::Base
   #=>
   def list_permissions
     hash =  Dictionary.new
-    array = Array.new
-    array = accepts_who_with_role( [ :reader, :subscriber, :owner ] )
-    array.each do |user|
+    users = Array.new
+    users = accepts_who_with_role( [ :reader, :subscriber, :owner ] )
+    users.each do |user|
       hash[user.login.to_sym] = user.has_what_roles_on( self )
     end#do
-    hash 
+    hash = hash.order_by {|key,value| value.length }
+    hash = hash.reverse
+    hash
   end#def
 end#end class
