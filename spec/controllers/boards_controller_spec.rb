@@ -54,8 +54,7 @@ describe BoardsController do
  
     it "should expose the requested Private board as @board" do            
       Board.should_receive(:find_from).exactly(2).times.with(@params).and_return(@board)
-      @board.should_receive(:is_public).once.and_return( false )
-      @board.should_receive(:is_readable_by).with(@user).and_return( true )
+      @user.should_receive(:can).and_return( true )
       get :show, :user_name => "ryan", :board_url => "eat-fish"
       assigns[:board].should equal( mock_board )
     end
@@ -67,10 +66,9 @@ describe BoardsController do
     # a link. 
     it "should give an epoch fail to the user who tries to read an unreadable" do
         @bad_user = mock_model AnonUser
-        controller.stub!(:current_user).and_return(@bad_user)
         Board.should_receive(:find_from).exactly(1).times.with(@params).and_return(@board)
-        @board.should_receive(:is_public).once.and_return( false )
-        @board.should_receive(:is_readable_by).with(@bad_user).and_return(false)
+        controller.stub!(:current_user).and_return(@bad_user)
+        @bad_user.should_receive(:can).and_return( false )
         get :show, :user_name => "ryan", :board_url => "eat-fish"
         response.should redirect_to(login_url)
     end    
@@ -90,7 +88,7 @@ describe BoardsController do
     it "should expose the requested board as @board" do
       params = make_params({"action"=>"edit"})
       Board.should_receive(:find_from).exactly(2).times.with(params).and_return( @board )
-      @board.should_receive(:is_writeable_by).with(@user).and_return( true )
+      @user.should_receive(:can).and_return( true )
       get :edit, :user_name => "ryan", :board_url => "eat-fish"
       assigns[:board].should equal(mock_board)
     end
@@ -105,8 +103,8 @@ describe BoardsController do
       it "should expose a newly created board as @board" do
         build_params = {"id" => 1, "user_id" => 1, "title" => "my-board","url" => "my-board"}
         @user.should_receive(:boards).and_return(@board)
-        @board.should_receive(:build).with(build_params).and_return(@board)
-        @board.should_receive(:make_owner!).with(@user).and_return(true)
+        @board.should_receive(:build).with( build_params ).and_return(@board)
+        @board.should_receive(:allow!).with(@user,:write).and_return( true )
         @board.should_receive(:save).and_return(true)
         @user.should_receive(:login).and_return("ryan")
         post :create, :board => build_params
@@ -116,7 +114,7 @@ describe BoardsController do
         build_params = {"id" => 1, "user_id" => 1, "title" => "my-board","url" => "my-board"}
         @user.should_receive(:boards).and_return(@board)
         @board.should_receive(:build).with({}).and_return(@board)
-        @board.should_receive(:make_owner!).with(@user).and_return(true)
+        @board.should_receive(:allow!).with(@user,:write).and_return( true )
         @board.should_receive(:save).and_return(true)
         @user.should_receive(:login).and_return("ryan")
         post :create, :board => {}

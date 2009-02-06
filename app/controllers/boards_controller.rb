@@ -1,11 +1,13 @@
 class BoardsController < ApplicationController
+
   ###########################
   before_filter :load_user, :except => [:index,:update_board_permissions]
   before_filter :redirect_if_anon, :only => [:new,:create,:edit]
-  padlock(:on => :show) { @user.can :read , Board.find_from( params ) }
+  before_filter :can_look, :only => [:show]
   padlock(:on => [:edit,:update,:destroy]) { @user.can :write, Board.find_from( params ) }  
-
   ###########################
+
+
   ####################
   #update_permissions should get
   #=>
@@ -127,4 +129,18 @@ protected
       redirect_to login_url
     end# end if
   end#end method
+
+  ####################
+  #can_look should get
+  #=>
+  # and should return
+  #=>
+  def can_look
+    if @user.can( :read , @board ||= Board.find_from( params ) )
+      return true
+    else
+      redirect_to login_url    
+    end# if
+  end#def
+  
 end# end class

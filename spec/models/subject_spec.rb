@@ -221,5 +221,11 @@ describe "getting users who have tallied on subject" do
   
   it "should return hash with user login as key and tally count as value" do
     @subject.get_tallies_with_users.should == {:whatman => 2, :whoman => 1}
-  end
+  end#it
+end#des
+
+describe "overidding " do
+  
 end
+
+
