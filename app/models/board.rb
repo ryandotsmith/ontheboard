@@ -1,3 +1,4 @@
+require 'facets/dictionary'
 class Board < ActiveRecord::Base
   ####################
   acts_as_authorizable
@@ -77,9 +78,9 @@ class Board < ActiveRecord::Base
   # and should return
   #=>
   def list_permissions
-    hash =  Hash.new
+    hash =  Dictionary.new
     array = Array.new
-    array = self.accepts_who_with_role( [ :reader, :subscriber, :owner ] )
+    array = accepts_who_with_role( [ :reader, :subscriber, :owner ] )
     array.each do |user|
       hash[user.login.to_sym] = user.has_what_roles_on( self )
     end#do

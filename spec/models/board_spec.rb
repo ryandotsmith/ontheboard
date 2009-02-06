@@ -110,11 +110,11 @@ describe "Get a list of users with permissions on a board" do
   end
   ###############
   it "should return a hash of users and their permission levels " do
-    @owner.can(:write,@board)
-    @guest.can(:execute,@board)
-    @unknown.can(:read,@board)
-    @board.list_permissions.should  eql( { @owner   => [ :read, :write, :execute ],
-                                           @guest   => [ :read, :execute ],
-                                           @unknown => [ :read ]} )
+    @board.allow!(   @owner,   :write  )  
+    @board.allow!(   @guest,   :execute )
+    @board.allow!(   @unknown, :read   )
+    @board.list_permissions.should  == ( { @owner.login.to_sym   => [ "read", "write", "execute" ],
+                                           @guest.login.to_sym   => [ "read", "execute" ],
+                                           @unknown.login.to_sym => [ "read" ]} )
  end
 end
