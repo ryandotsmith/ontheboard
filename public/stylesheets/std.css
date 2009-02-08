@@ -60,6 +60,9 @@ a.ast {
 	background-color:#E5CA7C;
 }
 .page_object {
+	margin:2em;
+	padding:1em;
+	background-color:grey;
 	border: 1px solid black;
 }
 .tips h3 {

@@ -1,19 +1,20 @@
 <div id="left">
-	
+	<div class="navigation">
+		<% if current_user.can(:write, @subject)%>
+			<%= link_to 'Edit this subject', 
+			edit_subject_url(	:user_name => @subject.board.user.login,
+						:subject_name => @subject.url,
+						:board_url => @subject.board.url) %> 			
+		<% end %>
+	</div><!--end navigation-->
+
 </div><!--end left-->
 <div id="right">
 	
 </div><!--end right-->
 <div id="center">
-	<h1> 
-		<%= link_to "#{@subject.board.user.login}", 
-					user_page_url(:user_name => @subject.board.user.login)%> : 
-		<%= link_to  "#{@subject.board.title}",
-		 			user_board_url(	:user_name  =>  @subject.board.user.login,
-									:board_url  =>  @subject.board.url )%> : 
-		<%=h @subject.title %>
-	</h1>
-	<h2>{ <%= @subject.board.description %> }</h2>
+	<% @nav_options << ": #{ @subject.title }"%>
+	<%= render :partial => 'navigation', :locals => { :subject => @subject, :options => @nav_options }%>
 	<h3>Tallies</h3>
 	<ul>
 		<% @subject.get_tallies_with_users.each do |key,value|%>

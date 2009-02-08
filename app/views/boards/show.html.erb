@@ -10,31 +10,10 @@
 </div><!--end left-->
   
 <div id="right">
-	<% if @board.is_public %>
-		<p><a class="ast">*</a><h3 class="tips">This board is public</h3></p>
-	<% else %>
-		<p><a class="ast">*</a><h3 class="tips">This board is private</h3></p>
-	<% end %>
-	<table>
-	<td>user</td>
-	<td>read</td>
-	<td>write</td>
-	<td>execute</td>
-	<% @board.list_permissions.each do |user,permissions| %>
-	<tr>
-		<td><%= user %></td>
-		<td><%= "x" if permissions.include?('reader')%></td>
-		<td><%= "x" if permissions.include?('subscriber')%></td>
-		<td><%= "x" if permissions.include?('owner')%></td>
-	<% end %>
-	</table>
 </div><!--end right-->
 <div id="center">
-	<h1> 
-		<%= link_to "#{@board.user.login}", user_page_url(:user_name => @board.user.login)%> : 
-		<%=h @board.title %>
-	</h1>
-	<h2>{ <%= @board.description %> }</h2>
+	<% @nav_options << @board.title.to_s %>
+	<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
 	<h3>Your Board Subjects </h3>
 	<div id="subjects" class="page_object">
 		<ul class="board_list">

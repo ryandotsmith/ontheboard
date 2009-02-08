@@ -1,0 +1,18 @@
+<ul class='form'>
+<% form_remote_tag :url  => { :action => 'update' }, 
+		  		   :html => { :id => 'update_permissions' },
+		    	   :method => :put,
+		 		   :subject => subject do%>		
+		
+		<%= hidden_field_tag :update_type, :permissions %>
+		<%= render :partial => 'users/search_for_user'%>
+		
+		<li><%= select_tag :level, options_for_select( ['read','execute','write'])%></li>
+		<li>
+			<%= label_tag "inherits"%>
+			[ yes <%= radio_button_tag :inherits , 'true' %>
+			  no <%= radio_button_tag :inherits , 'false' %> ]
+		</li>
+		<li><%= submit_tag 'submit' %></li>
+<% end %>
+</ul>

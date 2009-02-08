@@ -1,44 +1,53 @@
 <div id="left">
 	
 </div><!--end left-->
+
 <div id="right">
+
 	<div class="navigation">
 		<h3>Grant User Permission</h3>
-		<% form_remote_tag :url => update_board_permissions_url(:board_id => @board.id) do %>
-		<%= render :partial => 'users/search_for_user'%>
-		<%= select_tag :level, options_for_select( ['read','execute','write'])%>
-		<%= submit_tag 'update'%>
-		<% end %>
+		<%= render :partial => 'edit_board_permissions', :locals => { :board => @board } %>
 	</div><!--end navigation-->
-</div><!--end right-->
-<div id="center">
-	<ul class="form">
-	<% form_for([@board], 	
-				:url  => {  :action => 'update',
-							:user_name => @board.user.login,
-						    :board_url => @board.url	},
-				:html => {:class => 'user_form', :id => 'edit_board'}) do |f| %>
-	  <%= f.error_messages %>
-		<li>
-	    <%= f.label :title %>
-	    <%= f.text_field :title %>
-		</li>
-		<li>
-	    <%= f.label :description %>
-	    <%= f.text_field :description %>
-		</li>
 
-		<li>
-	    <%= f.label :is_public %>
-	    <%= f.check_box :is_public %>
-		</li>
-		<li>
-	    <%= f.submit "Update" %>
-		<li>
-		<li class="cancel">
-		<%= link_to "Cancel", user_board_url( :user_name => @board.user.login,
-										      :board_url => @board.url)%>
-		</li>
-	<% end %>
-	</ul>
+</div><!--end right-->
+
+
+<div id="center">
+	<% @nav_options << "#{ link_to @board.title, user_board_path }"%>
+	<% @nav_options << "edit"%>
+	<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
+	<div id="general" class="page_object">
+		<ul class="form">
+		<% form_for([@board], 	
+					:url  => {  :action => 'update',
+								:user_name => @board.user.login,
+							    :board_url => @board.url	},
+					:html => {:class => 'user_form', :id => 'edit_board'}) do |f| %>
+		  <%= f.error_messages %>
+			<li>
+		    <%= f.label :title %>
+		    <%= f.text_field :title %>
+			</li>
+			<li>
+		    <%= f.label :description %>
+		    <%= f.text_field :description %>
+			</li>
+
+			<li>
+		    <%= f.label :is_public %>
+		    <%= f.check_box :is_public %>
+			</li>
+			<li>
+		    <%= f.submit "Update" %>
+			<li>
+			<li class="cancel">
+			<%= link_to "Cancel", user_board_url( :user_name => @board.user.login,
+											      :board_url => @board.url)%>
+			</li>
+		<% end %>
+		</ul>
+	</div><!--end general-->
+	<div id="permissions" class="page_object">
+		<%= render :partial => 'show_board_permissions', :locals => { :board => @board }%>
+	</div><!--end permissions-->
 </div><!--end center-->

@@ -1,8 +1,23 @@
 class SubjectsController < ApplicationController
   ######################################
   before_filter :load_board 
-
+  before_filter :load_nav_options
   ######################################
+
+  ####################
+  #update_permissions should get
+  #=>
+  # and should return
+  #=>
+  def update_subject_permissions
+    @subject = Subject.find(params[:subject_id])
+    #debugger
+    user_login = params[:user][:login] unless params[:user].nil?
+    @us    = User.find_by_login(user_login) 
+    @ac    = params[:level]
+    @subject.allow!( @us, @ac.to_sym ) unless @us.nil?
+    @subject.inherit_permissions! if params[:inherits]
+  end
 
   def show
    @subject = Subject.find_from( params )
@@ -43,10 +58,16 @@ class SubjectsController < ApplicationController
   def update
     @subject = Subject.find_from( params )
     respond_to do |format|
-      if @subject.update_attributes(params[:subject])
-        flash[:notice] = 'Subject was successfully updated.'
+    if @subject.update_attributes(params[:subject])
+        r = @subject.update_hooks( params )
+        case r
+          when :p
+            format.js   {render :action => 'update_permissions.rjs'}
+          when :f
+            format.js   {render :action => 'update.rjs'}
+        end
         format.html { redirect_to user_board_url( :user_name => @board.user.login, 
-                                                  :board_url => @board.url)}
+                                                  :board_url => @board.url) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -72,5 +93,13 @@ protected
   #=>
   def load_board
     @board = Board.find_from( params )
+  end
+  ####################
+  #load_nav_top should get
+  #=>
+  # and should return
+  #=>
+  def load_nav_options
+    @nav_options = Array.new
   end
 end#end class

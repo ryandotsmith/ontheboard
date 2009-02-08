@@ -1,0 +1,11 @@
+<h1> 
+	<%= link_to "#{board.user.login}", user_page_url(:user_name => board.user.login)%> : 
+	<% options ||= nil %>
+	<% if options != nil %>
+		<% options.each do |option|%>
+			<%= option %> <%= ": " unless option == options.last %>
+		<% end %>
+	<%end %>
+</h1>
+
+<h2>{ <%= board.description %> }</h2>

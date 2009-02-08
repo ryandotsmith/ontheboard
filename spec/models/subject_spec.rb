@@ -224,8 +224,19 @@ describe "getting users who have tallied on subject" do
   end#it
 end#des
 
-describe "overidding " do
-  
-end
+describe "update hooks " do
+
+  before(:each) do
+    @user       =   Factory( :user, :id => 12, :login => "whatman"    )
+    @board      =   Factory( :board   )
+    @subject    =   Factory( :subject )
+    @board.subjects << @subject
+  end#do
+
+  it "should recieve a string describing the type of update" do
+    params = {:update_type => 'permissions', :user => {:login => "#{@user.login}"}, :level => :read}
+    @subject.update_hooks( params ).should eql( :p )
+  end#it
+end#des
 
 

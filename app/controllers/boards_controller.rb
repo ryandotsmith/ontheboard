@@ -4,6 +4,7 @@ class BoardsController < ApplicationController
   before_filter :load_user, :except => [:index,:update_board_permissions]
   before_filter :redirect_if_anon, :only => [:new,:create,:edit]
   before_filter :can_look, :only => [:show]
+  before_filter :load_nav_options
   padlock(:on => [:edit,:update,:destroy]) { @user.can :write, Board.find_from( params ) }  
   ###########################
 
@@ -143,4 +144,12 @@ protected
     end# if
   end#def
   
+  ####################
+  #load_nav_options should get
+  #=>
+  # and should return
+  #=>
+  def load_nav_options
+    @nav_options = Array.new
+  end
 end# end class

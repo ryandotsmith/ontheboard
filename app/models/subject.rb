@@ -7,7 +7,49 @@ class Subject < ActiveRecord::Base
   def to_param
      url
   end
+  
+  ####################
+  #update_hooks( params ) should get
+  #=>
+  # and should return
+  #=>
+  def update_hooks( params )
+    case params[:update_type]
+      when 'general'
+        
+      when 'permissions'
+        working_user = User.find_by_login( params[:user][:login] )
+        access_level = params[:level].to_sym
+        unless working_user.nil?
+          begin 
+            allow!( working_user, access_level )
+          end
+        end#unless
+        inherit_permissions! if params[:inherits] == 'true'
+        revert_permissions!  if params[:inherits] == 'false'
+        return :p
+      else
+        return :f
+    end#case
+  end#def
 
+  ####################
+  #list_permissions should get
+  #=>
+  # and should return
+  #=>
+  def list_permissions
+    hash =  Dictionary.new
+    users = Array.new
+    users = accepts_who_with_role( [ :reader, :subscriber, :owner ] )
+    users.each do |user|
+      hash[user.login.to_sym] = user.has_what_roles_on( self )
+    end#do
+    hash = hash.order_by {|key,value| value.length }
+    hash = hash.reverse
+    hash
+    
+  end
   ####################
   #get_users_with_tallies should get
   #=>
@@ -35,6 +77,7 @@ class Subject < ActiveRecord::Base
     name  = params[:subject_name]
     subject = Subject.find(:first, :conditions  => "board_id = '#{board.id}' and url = '#{name}'")    
   end# def
+  
   ####################
   #inherit_permissions should get
   #=>
@@ -46,6 +89,16 @@ class Subject < ActiveRecord::Base
    save!
   end
   
+  ####################
+  #revert_permissions! should get
+  #=>
+  # and should return
+  #=>
+  def revert_permissions!
+    self.inherits  = false
+    self.is_public = false
+    save!
+  end
   ####################
   #authorize( user, action) should get
   #=>
@@ -78,6 +131,8 @@ class Subject < ActiveRecord::Base
   #=>
   def allow!( user, action )
     self.inherits = false
+    # clear the permissions on the object before setting new permissions. 
+    [:owner, :subscriber, :read].each {|r| user.has_no_role r, self}
     case action
     when :read
         self.accepts_role :reader, user

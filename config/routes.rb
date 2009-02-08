@@ -54,12 +54,14 @@ ActionController::Routing::Routes.draw do |map|
   :conditions   =>  {:method => :post }  
  map.show_subject'/:user_name/:board_url/:subject_name', 
   :controller   =>  'subjects', 
-  :action       =>  'show'
+  :action       =>  'show',
+  :conditions   =>  { :method => :get }
+  
  map.edit_subject'/:user_name/:board_url/:subject_name/edit',
   :controller   =>  'subjects',
   :action       =>  'edit',
   :conditions   =>  { :method => :get }
- map.update_subject '/:user_name/:board_url/:subject_name',
+ map.update_subject '/:user_name/:board_url/:subject_name/edit',
   :controller   =>  'subjects',
   :action       =>  'update',
   :conditions   =>  { :method => :put }
@@ -67,6 +69,9 @@ ActionController::Routing::Routes.draw do |map|
   :controller   =>  'subjects',
   :action       =>  'destroy',
   :conditions   => {:method => :delete }
+ map.update_subject_permissions '/:user_name/:board_url/:subject_name/update_subject_permissions',
+  :controller   =>  'subjects',
+  :action       =>  'update_subject_permissions'
 ############################
 # Tally
 #

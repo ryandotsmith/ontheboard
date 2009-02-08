@@ -70,7 +70,15 @@ class User < ActiveRecord::Base
   def can( action, object)
     object.authorize( self, action)
   end#def
-
+  
+  ####################
+  #reset_permissions_on( object ) should get
+  #=>
+  # and should return
+  #=>
+  def reset_permissions_on( object )
+    self.has_no_roles_on( object )
+  end
 
   protected
     

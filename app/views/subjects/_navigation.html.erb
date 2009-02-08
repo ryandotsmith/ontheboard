@@ -1,0 +1,13 @@
+<h1> 
+	<%= link_to "#{subject.board.user.login}", 
+				user_page_url(:user_name => subject.board.user.login)%> : 
+	<%= link_to  "#{subject.board.title}",
+	 			user_board_url(	:user_name  =>  subject.board.user.login,
+								:board_url  =>  subject.board.url )%> 
+	<% if options != nil %>
+		<% options.each do |option|%>
+			<%= option %>
+		<% end %>
+	<%end %>
+</h1>
+<h2>{ <%= subject.board.description %> }</h2>

@@ -1,0 +1,22 @@
+<% if subject.inherits %>
+	<p>
+		<a class="ast">*</a><h3 class="tips">This subject inherits permissions</h3>
+	</p>
+<% else %>
+
+<table>
+	<td>user</td>
+	<td>read</td>
+	<td>execute</td>
+	<td>write</td>
+	<% subject.list_permissions.each do |user,permissions| %>
+	<tr>
+		<td><%= user %></td>
+		<td><%= "x" if permissions.include?('reader')%></td>
+		<td><%= "x" if permissions.include?('subscriber')%></td>
+		<td><%= "x" if permissions.include?('owner')%></td>
+	</tr>
+	<% end %>
+</table>
+
+<% end %>

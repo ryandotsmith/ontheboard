@@ -3,6 +3,8 @@
 ul.form {
 	list-style:none;
 	text-decoration:none;
+	margin-left:0px;
+	padding-left:0px;
 }
 ul.form li {
 	margin-top:2em;

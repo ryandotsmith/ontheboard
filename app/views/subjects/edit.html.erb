@@ -1,16 +1,46 @@
-<h1>Editing subject</h1>
+<div id="left">
+	
+</div><!--end left-->
+<div id="right">
+	<div class="navigation">
+		<h3>Grant User Permission</h3>
+		<%= render :partial => 'edit_subject_permissions', 
+				   :locals  => { :subject => @subject }%>
+	</div><!--end navigation-->
+</div><!--end right-->
+<div id="center">
 
-<% form_for(@subject) do |f| %>
-  <%= f.error_messages %>
+	<% @nav_options << ": #{ link_to @subject.title, show_subject_path }"%>
+	<% @nav_options << ': edit' %>
+	<%= render :partial => 'navigation', :locals => { :subject => @subject, :options => @nav_options }%>
 
-  <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.submit "Update" %>
-  </p>
-<% end %>
+	<div id="general" class="page_object">
+		<ul class="form">
 
-<%= link_to 'Show', @subject %> |
-<%= link_to 'Back', subjects_path %>
+		<% form_for([@subject], 	
+					:url  => {  :action => 'update',
+								:user_name => @subject.board.user.login,
+							    :board_url => @subject.board.url,
+							    :subject_name => @subject.url	},
+					:html => {  :class => 'user_form', :id => 'edit_subject'}) do |f| %>
+
+			<%= hidden_field_tag :update_type, :general %>
+			<%= f.error_messages %>
+			<li></li>
+			<li><%= f.text_field :title %></li>
+		    <li><%= f.submit "Update" %></li>
+			<li class="cancel">
+				<%= link_to "Cancel", user_board_url( :user_name => @subject.board.user.login,
+											          :board_url => @subject.board.url)%>
+			</li>
+		<% end %><!--end do-->
+		</ul>
+		
+	</div><!--end general-->
+
+	<div id="permissions" class="page_object">
+			<%= render  :partial => 'show_subject_permissions',
+						:locals  => { :subject => @subject }%>	
+	</div><!--end permissions-->
+
+</div><!--end center-->
