@@ -60,6 +60,8 @@ class Board < ActiveRecord::Base
   # and should return
   #=>
   def allow!( user, action )
+    # clear the permissions on the object before setting new permissions. 
+    [:owner, :subscriber, :read].each {|r| user.has_no_role( r, self ) }
     case action
     when :read
         self.accepts_role :reader, user 

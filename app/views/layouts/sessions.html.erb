@@ -5,6 +5,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Welcome Back!</title>
+	<!-- look in the application helper for get_css -->
 	<% get_css.each do |tag|%>
 		<%=	stylesheet_link_tag "#{tag}"%>
 	<% end %>
