@@ -1,1 +1,4 @@
-page.alert("updated permissions for #{@us.name} #{@board.title} #{@ac}!")
+page.replace_html 'permissions',  :partial  => 'show_board_permissions', 
+                                  :locals   => { :board => @board }
+page.visual_effect :highlight, 'permissions'                                 
+page[:update_permissions].reset

@@ -16,7 +16,10 @@ Rails::Initializer.run do |config|
   # added this for factory-girl RRS
   config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com"
   # added this gem to make url from board titles
-  config.gem "rsl-stringex", :version => "~> 0.9.2", :lib => "stringex"
+  config.gem "rsl-stringex", :version => " >=0.9.2", :lib => "stringex"
+  # using the facets dictionary features
+  config.gem "facets", :version => " >= 2.5.0"
+  config.gem "rubyist-aasm", :version => ">= 2.0.2"
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.

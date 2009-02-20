@@ -1,5 +1,9 @@
-<% form_remote_tag :url => update_board_permissions_url(:board_id => board.id) do %>
+<% form_remote_tag 	:url 	=> 	{ :action	=>	'update'},
+ 					:html	=>	{ :id		=>	'update_permissions' },
+					:method	=>	:put,
+					:board	=>	board do %>
 	<%= render :partial => 'users/search_for_user'%>
+	<%= hidden_field_tag :update_type, :permissions %>
 	<%= select_tag :level, options_for_select( ['read','execute','write'])%>
 	<%= submit_tag 'update'%>
 <% end %>

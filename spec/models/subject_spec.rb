@@ -49,16 +49,17 @@ describe "Checking Inherit Permissions " do
     @board.subjects << @subject
   end# before
 
-  it "should inherit permissions and allow board reader" do
-    @board.save! if @board.is_public = true
+  it "should inherit permissions and allow board read" do
+    @board.is_public = true
+    @board.save!  
     @subject.inherit_permissions! and @subject.inherits.should eql( true )
-    @user.can(:read, @board).should eql( true )
-    @user.can(:read, @subject).should eql( true )
+    @user.can(:read,    @board).should eql( true )
+    @user.can(:read,    @subject).should eql( true )
     @user.can(:execute, @subject).should eql( true )
-    @user.can(:write,@subject).should eql( false)
+    @user.can(:write,   @subject).should eql( false)
   end# it
 
-  it "should inherit permissions and deny a board reader" do
+  it "should inherit permissions and deny a board read" do
     @board.save! if @board.is_public = false
     @subject.inherit_permissions! and @subject.inherits.should eql( true )
     @user.can(:read, @board).should eql( false )
@@ -66,7 +67,7 @@ describe "Checking Inherit Permissions " do
     @user.can(:read, @subject).should eql( true )
   end
   
-  it "should give the user exec access to subject if the board says user is subscriber" do
+  it "should give the user exec access to subject if the board says user can execute" do
     @board.save! if @board.is_public = false
     @subject.inherit_permissions! and @subject.inherits.should eql( true )
     
@@ -78,7 +79,7 @@ describe "Checking Inherit Permissions " do
     @user.can(:execute, @subject).should eql( false )
     @user.can(:write, @subject).should eql( false )
 
-    @board.allow!( @user, :execute) and @board.accepts_role?( :subscriber, @user).should eql( true )
+    @board.allow!( @user, :execute) and @board.accepts_role?( :execute, @user).should eql( true )
 
     @user.can(:read, @board).should eql( true )
     @user.can(:execute, @board).should eql( true )
@@ -90,7 +91,7 @@ describe "Checking Inherit Permissions " do
     
   end
 
-  it "should give user write access to subject if the board says that user is owner" do
+  it "should give user write access to subject if the board says that user can write" do
     @board.save! if @board.is_public = false
     @subject.inherit_permissions! and @subject.inherits.should eql( true )
     
@@ -102,7 +103,7 @@ describe "Checking Inherit Permissions " do
     @user.can(:execute, @subject).should eql( false )
     @user.can(:write, @subject).should eql( false )
 
-    @board.allow!( @user, :write) and @board.accepts_role?( :owner, @user).should eql( true )
+    @board.allow!( @user, :write) and @board.accepts_role?( :write, @user).should eql( true )
 
     @user.can(:read, @board).should eql( true )
     @user.can(:execute, @board).should eql( true )
@@ -235,7 +236,7 @@ describe "update hooks " do
 
   it "should recieve a string describing the type of update" do
     params = {:update_type => 'permissions', :user => {:login => "#{@user.login}"}, :level => :read}
-    @subject.update_hooks( params ).should eql( :p )
+    @subject.update_hooks( params ).should eql( :permissions )
   end#it
 end#des
 

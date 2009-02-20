@@ -12,9 +12,9 @@
 	<% subject.list_permissions.each do |user,permissions| %>
 	<tr>
 		<td><%= user %></td>
-		<td><%= "x" if permissions.include?('reader')%></td>
-		<td><%= "x" if permissions.include?('subscriber')%></td>
-		<td><%= "x" if permissions.include?('owner')%></td>
+		<td><%= "x" if permissions.include?('read')%></td>
+		<td><%= "x" if permissions.include?('write')%></td>
+		<td><%= "x" if permissions.include?('execute')%></td>
 	</tr>
 	<% end %>
 </table>

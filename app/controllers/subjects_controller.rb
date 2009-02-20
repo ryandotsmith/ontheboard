@@ -11,7 +11,6 @@ class SubjectsController < ApplicationController
   #=>
   def update_subject_permissions
     @subject = Subject.find(params[:subject_id])
-    #debugger
     user_login = params[:user][:login] unless params[:user].nil?
     @us    = User.find_by_login(user_login) 
     @ac    = params[:level]
@@ -59,22 +58,22 @@ class SubjectsController < ApplicationController
     @subject = Subject.find_from( params )
     respond_to do |format|
     if @subject.update_attributes(params[:subject])
-        r = @subject.update_hooks( params )
-        case r
-          when :p
-            format.js   {render :action => 'update_permissions.rjs'}
-          when :f
-            format.js   {render :action => 'update.rjs'}
-        end
+        update_type = @subject.update_hooks( params )
+        case update_type
+          when :permissions
+            format.js   {render :action => 'update_subject_permissions.rjs'}
+          when :epoch_fail
+            format.js   {render :action => 'epoch_fail.rjs'}
+        end#case
         format.html { redirect_to user_board_url( :user_name => @board.user.login, 
                                                   :board_url => @board.url) }
         format.xml  { head :ok }
-      else
+      else# there was an error 
         format.html { render :action => "edit" }
         format.xml  { render :xml => @subject.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+      end#if
+    end#do
+  end#method
 
   def destroy
     @subject = Subject.find_from( params )

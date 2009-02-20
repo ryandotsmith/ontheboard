@@ -17,35 +17,7 @@
 	<% @nav_options << "edit"%>
 	<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
 	<div id="general" class="page_object">
-		<ul class="form">
-		<% form_for([@board], 	
-					:url  => {  :action => 'update',
-								:user_name => @board.user.login,
-							    :board_url => @board.url	},
-					:html => {:class => 'user_form', :id => 'edit_board'}) do |f| %>
-		  <%= f.error_messages %>
-			<li>
-		    <%= f.label :title %>
-		    <%= f.text_field :title %>
-			</li>
-			<li>
-		    <%= f.label :description %>
-		    <%= f.text_field :description %>
-			</li>
-
-			<li>
-		    <%= f.label :is_public %>
-		    <%= f.check_box :is_public %>
-			</li>
-			<li>
-		    <%= f.submit "Update" %>
-			<li>
-			<li class="cancel">
-			<%= link_to "Cancel", user_board_url( :user_name => @board.user.login,
-											      :board_url => @board.url)%>
-			</li>
-		<% end %>
-		</ul>
+		<%= render :partial	=>	'edit_board_title', :locals => { :board => @board} %>
 	</div><!--end general-->
 	<div id="permissions" class="page_object">
 		<%= render :partial => 'show_board_permissions', :locals => { :board => @board }%>

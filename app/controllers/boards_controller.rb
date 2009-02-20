@@ -52,7 +52,7 @@ class BoardsController < ApplicationController
 
   def create
     @board = @user.boards.build(params[:board])
-    @board.allow!(@user, :write )
+    @board.make_owner!( @user )
     respond_to do |format|
       if @board.save
         flash[:notice] = 'Board was successfully created.'
@@ -71,17 +71,22 @@ class BoardsController < ApplicationController
     #this will rename the url with the updated title
     respond_to do |format|
       if @board.update_attributes(params[:board]) 
-        @board.set_url(params[:board][:title])
-        flash[:notice] = 'Board was successfully updated.'
+        update_type = @board.update_hooks( params )
+        case update_type
+          when :general
+          
+          when :permissions
+            format.js { render :action => 'update_board_permissions.js'}
+          when :epoch_fail
+            format.js { render :action => 'epoch_fail.js'}
+        end#case
         format.html { redirect_to user_board_url( :user_name => @user.login,
                                                   :board_url => @board.url)}
-        format.xml  { head :ok }
-      else
+      else# board was not updated
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @board.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+      end#do
+    end#if
+  end#def
 
   def destroy
     @board = Board.find(params[:id])
@@ -152,4 +157,15 @@ protected
   def load_nav_options
     @nav_options = Array.new
   end
+
+  ####################
+  #ensure_unique_board_title should get
+  #=>
+  # and should return
+  #=>
+  def ensure_unique_board_title
+    unless self.has_unique_title
+      errors.add_to_base("please choose another title")
+    end
+  end# method
 end# end class

@@ -1,0 +1,20 @@
+<ul class="form">
+<% form_for([subject], 	
+			:url  => {  :action => 'update',
+						:user_name => subject.board.user.login,
+					    :board_url => subject.board.url,
+					    :subject_name => subject.url	},
+			:html => {  :class => 'user_form', :id => 'edit_subject'}) do |f| %>
+
+	<%= hidden_field_tag :update_type, :general %>
+	<%= f.error_messages %>
+	<li></li>
+	<li><%= f.text_field :title %></li>
+    <li><%= f.submit "Update" %></li>
+	<li class="cancel">
+		<%= link_to "Cancel", user_board_url( :user_name => subject.board.user.login,
+									          :board_url => subject.board.url)%>
+	</li>
+<% end %><!--end do-->
+</ul>
+

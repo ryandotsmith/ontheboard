@@ -9,15 +9,19 @@ class Subject < ActiveRecord::Base
   end
   
   ####################
-  #update_hooks( params ) should get
-  #=>
-  # and should return
-  #=>
+  #update_hooks( params ) 
+  # there is a hidden field on any form that will send a 
+  # put request. This hidden filed sets a value for params(:update_type)
+  # this params value is sent to the update_hook method which will act upon
+  # the described update. The update_hooks method will kick back a symbol 
+  # describing what sort of updat took place. Then, the appropriate response will
+  # be generated. 
   def update_hooks( params )
-    case params[:update_type]
-      when 'general'
-        
-      when 'permissions'
+    params[:update_type] ||= :not_an_action
+    case params[:update_type].to_sym
+      when :general
+        return :general
+      when :permissions
         working_user = User.find_by_login( params[:user][:login] )
         access_level = params[:level].to_sym
         unless working_user.nil?
@@ -27,9 +31,9 @@ class Subject < ActiveRecord::Base
         end#unless
         inherit_permissions! if params[:inherits] == 'true'
         revert_permissions!  if params[:inherits] == 'false'
-        return :p
+        return :permissions
       else
-        return :f
+        return :epoch_fail
     end#case
   end#def
 
@@ -41,7 +45,7 @@ class Subject < ActiveRecord::Base
   def list_permissions
     hash =  Dictionary.new
     users = Array.new
-    users = accepts_who_with_role( [ :reader, :subscriber, :owner ] )
+    users = accepts_who_with_role( [ :read, :each, :write ] )
     users.each do |user|
       hash[user.login.to_sym] = user.has_what_roles_on( self )
     end#do
@@ -108,17 +112,18 @@ class Subject < ActiveRecord::Base
     #if self.inherits
       return( board.authorize( user, action ) ) if self.inherits 
     #else
+      return true if   self.accepts_role?( :write, user)
       return true if ( self.is_public && ( (action == :read) || (action == :execute) ) ) 
       case action
       when :read
-        self.accepts_role?(:owner, user ) || 
-        self.accepts_role?(:subscriber, user) || 
-        self.accepts_role?(:reader, user ) 
+        self.accepts_role?(:write, user ) || 
+        self.accepts_role?(:execute, user) || 
+        self.accepts_role?(:read, user ) 
       when :execute
-        self.accepts_role?(:owner, user ) ||
-        self.accepts_role?(:subscriber, user)         
+        self.accepts_role?(:write, user ) ||
+        self.accepts_role?(:execute, user)         
       when :write
-        self.accepts_role?(:owner, user )        
+        self.accepts_role?(:write, user )        
       end# case 
 
     #end# if 
@@ -132,17 +137,17 @@ class Subject < ActiveRecord::Base
   def allow!( user, action )
     self.inherits = false
     # clear the permissions on the object before setting new permissions. 
-    [:owner, :subscriber, :read].each {|r| user.has_no_role r, self}
+    [:write, :execute, :read].each {|r| user.has_no_role r, self}
     case action
     when :read
-        self.accepts_role :reader, user
+        self.accepts_role :read, user
     when :execute
-        self.accepts_role :reader, user
-        self.accepts_role :subscriber, user
+        self.accepts_role :read, user
+        self.accepts_role :execute, user
     when :write    
-        self.accepts_role :reader, user
-        self.accepts_role :subscriber, user
-        self.accepts_role :owner, user
+        self.accepts_role :read, user
+        self.accepts_role :execute, user
+        self.accepts_role :write, user
     end# case
   end# def
   
