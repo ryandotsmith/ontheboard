@@ -72,6 +72,10 @@ ActionController::Routing::Routes.draw do |map|
  map.update_subject_permissions '/:user_name/:board_url/:subject_name/update_subject_permissions',
   :controller   =>  'subjects',
   :action       =>  'update_subject_permissions'
+ map.show_sort '/:user_name/:board_url/:subject_name/sort',
+  :controller   =>  'subjects',
+  :action       =>  'sort'
+  
 ############################
 # Tally
 #

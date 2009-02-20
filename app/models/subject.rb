@@ -7,7 +7,7 @@ class Subject < ActiveRecord::Base
   def to_param
      url
   end
-    ####################
+  ####################
   #update_hooks( params ) 
   # there is a hidden field on any form that will send a 
   # put request. This hidden filed sets a value for params(:update_type)
