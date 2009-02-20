@@ -19,7 +19,7 @@ Rails::Initializer.run do |config|
   config.gem "rsl-stringex", :version => " >=0.9.2", :lib => "stringex"
   # using the facets dictionary features
   config.gem "facets", :version => " >= 2.5.0"
-  config.gem "rubyist-aasm", :version => ">= 2.0.2"
+  #config.gem "rubyist-aasm", :version => ">= 2.0.2", :source => "http://gems.github.com"
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
