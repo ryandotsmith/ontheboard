@@ -15,11 +15,12 @@
 
 </head>
 <body>
-	<div id="header">
-		<%= render :partial => 'users/user_bar' %>
-	</div>
 	
 	<div id="container">
+		<div id="header">
+			<%= render :partial => 'users/user_bar' %>
+		</div>
+
 		<div id="info_bar" >
 			<%= flash[:notice]%>
 			<%= flash[:warning]%>

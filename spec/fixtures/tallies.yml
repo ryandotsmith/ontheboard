@@ -1,15 +1,41 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  int_val: 1
-  str_val: MyString
-  text_val: MyText
-  bool_val: false
-  user_id: 1
-
-two:
-  int_val: 1
-  str_val: MyString
-  text_val: MyText
-  bool_val: false
-  user_id: 1
+--- 
+tallies_001: 
+  bool_val: ~
+  created_at: "2009-02-21 00:28:44"
+  id: "1"
+  int_val: ~
+  str_val: ~
+  subject_id: "1"
+  text_val: ~
+  updated_at: "2009-02-21 00:28:44"
+  user_id: "1"
+tallies_002: 
+  bool_val: ~
+  created_at: "2009-02-21 00:29:51"
+  id: "2"
+  int_val: ~
+  str_val: ~
+  subject_id: "1"
+  text_val: ~
+  updated_at: "2009-02-21 00:29:51"
+  user_id: "1"
+tallies_003: 
+  bool_val: ~
+  created_at: "2009-02-21 00:29:52"
+  id: "3"
+  int_val: ~
+  str_val: ~
+  subject_id: "1"
+  text_val: ~
+  updated_at: "2009-02-21 00:29:52"
+  user_id: "1"
+tallies_004: 
+  bool_val: ~
+  created_at: "2009-02-21 02:17:36"
+  id: "4"
+  int_val: ~
+  str_val: ~
+  subject_id: "1"
+  text_val: ~
+  updated_at: "2009-02-21 02:17:36"
+  user_id: "2"

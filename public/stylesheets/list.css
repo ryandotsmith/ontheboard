@@ -80,5 +80,26 @@ ul.tally_list li:hover {
 	background-color:#646464;
 }
 
-/**/
+/* User navigation */
+ul.lava_nav {
+	position:relative;
+	overflow:hidden;
+}
+ul.lava_nav li {
+	list-style:none;
+	text-decoration:none;			
+	float:left;
+	padding-left:.5em;
+}
+ul.lava_nav li.back {
+	border-bottom:5px solid blue;
+	height:30px;
+	position:absolute;
+	width:9px;
+	z-index:8;
+}
+ul.lava_nav li a {
+
+}
+
 /**/

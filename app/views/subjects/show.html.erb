@@ -13,7 +13,7 @@
 	
 </div><!--end right-->
 <div id="center">
-	<% @nav_options << ": #{ @subject.title }"%>
+	<% @nav_options <<  ": #{@subject.title}" %>
 	<%= render :partial => 'navigation', :locals => { :subject => @subject, :options => @nav_options }%>
 	<h3>Tallies</h3>
 	<ul>

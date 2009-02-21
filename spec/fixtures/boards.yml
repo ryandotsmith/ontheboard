@@ -1,9 +1,10 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  title: MyString
-  is_public: false
-
-two:
-  title: MyString
-  is_public: false
+--- 
+boards_001: 
+  created_at: "2009-02-21 00:25:07"
+  description: "let us make money !"
+  id: "1"
+  is_public: "0"
+  title: "sales board"
+  updated_at: "2009-02-21 00:25:07"
+  url: sales-board
+  user_id: "2"

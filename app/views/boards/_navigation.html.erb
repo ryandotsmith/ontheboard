@@ -1,11 +1,13 @@
 <h1> 
-	<%= link_to "#{board.user.login}", user_page_url(:user_name => board.user.login)%> : 
+<ul class="lavaLampBottomStyle" id="user_nav">
+	<li><%= link_to "#{board.user.login}", user_page_url(:user_name => board.user.login)%>  </li>
 	<% options ||= nil %>
 	<% if options != nil %>
 		<% options.each do |option|%>
-			<%= option %> <%= ": " unless option == options.last %>
+			<li><%= option %></li>
 		<% end %>
 	<%end %>
 </h1>
+</ul>
 
 <h2>{ <%= board.description %> }</h2>

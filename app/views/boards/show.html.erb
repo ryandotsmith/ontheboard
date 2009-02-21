@@ -12,8 +12,9 @@
 <div id="right">
 </div><!--end right-->
 <div id="center">
-	<% @nav_options << @board.title.to_s %>
+	<% @nav_options << ": #{@board.title}" %>
 	<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
+
 	<h3>Your Board Subjects </h3>
 	<div id="subjects" class="page_object">
 		<ul class="board_list">

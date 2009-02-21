@@ -1,12 +1,9 @@
 <% if logged_in? -%>
 
-  <div id="user-bar-greeting">
+  <div id="user_bar">
 	Logged in as <%= link_to "#{current_user.name}", 
 					user_page_url(:user_name =>current_user.login) ,
 	       			:content_method => :login %>
-  </div>
-
-  <div id="user-bar-action"  >
 	(<%= link_to "Log out", logout_path, { :title => "Log out" }    %>)
   </div>
 

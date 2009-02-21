@@ -8,8 +8,8 @@
 </div><!--end right-->
 <div id="center">
 
-	<% @nav_options << ": #{ link_to @subject.title, show_subject_path }"%>
-	<% @nav_options << ': edit' %>
+	<% @nav_options << "#{ link_to @subject.title, show_subject_path }"%>
+	<% @nav_options <<  ': edit' %>
 	
 	<%= render :partial => 'navigation', 
 				:locals => { :subject => @subject, :options => @nav_options }%>

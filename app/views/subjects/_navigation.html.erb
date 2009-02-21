@@ -1,12 +1,20 @@
 <h1> 
-	<%= link_to "#{subject.board.user.login}", 
-				user_page_url(:user_name => subject.board.user.login)%> : 
-	<%= link_to  "#{subject.board.title}",
-	 			user_board_url(	:user_name  =>  subject.board.user.login,
-								:board_url  =>  subject.board.url )%> 
+	<ul class="lavaLampBottomStyle" id="user_nav">
+	<li>
+		<%= link_to "#{subject.board.user.login}", 
+					user_page_url(:user_name => subject.board.user.login)%> 
+
+	</li>
+	<li>
+		<%= link_to  "#{subject.board.title}",
+		 			user_board_url(	:user_name  =>  subject.board.user.login,
+									:board_url  =>  subject.board.url )%> 
+
+	</li>
+
 	<% if options != nil %>
 		<% options.each do |option|%>
-			<%= option %>
+		<li><%= option %></li>
 		<% end %>
 	<%end %>
 </h1>

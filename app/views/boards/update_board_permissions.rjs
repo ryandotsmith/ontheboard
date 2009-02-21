@@ -1,4 +1,4 @@
-page.replace_html 'permissions',  :partial  => 'show_board_permissions', 
+page.replace_html 'show_permissions',  :partial  => 'show_board_permissions', 
                                   :locals   => { :board => @board }
 page.visual_effect :highlight, 'permissions'                                 
 page[:update_permissions].reset

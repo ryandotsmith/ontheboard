@@ -1,6 +1,6 @@
 body {
 	min-width: 550px;
-	background-color:#102E51;
+	background-color:#B1E7D0;
 	font-family:helvetica;
 	
 }
@@ -19,21 +19,21 @@ a.ast {
 	float:left;
 }
 #container {
-	position:relative;
 	width: 90%;
 	min-height:30em;
 	margin: 10px auto;
-	background-color: #fff;
+	background-color: #B1E7D0;
 	color: #333;
-	border: 1px solid gray;
 	line-height: 130%;
 }
 
 #center {
+	margin-top:5em;
 	margin-left: 200px;
 	margin-right: 250px;
-	padding: 1em;
+	padding:1em;
 	max-width: 36em;
+	background-color:#fff;
 }
 #center h1 {
 	font-size:14pt;
@@ -46,8 +46,9 @@ a.ast {
 #left {
 	float: left;
 	width: 160px;
-	margin: 0;
+	margin-top:1em;
 	padding: 1em;
+	background-color:#C29E70;
 }
 #right {
 	float: right;
@@ -58,6 +59,14 @@ a.ast {
 #info_bar {
 	width:100%;
 	background-color:#E5CA7C;
+}
+#user_bar {
+	position:absolute;
+	top:0;
+	right:0;
+	width:30em;
+	padding:1em;
+	background-color:#CFF668;
 }
 .page_object {
 	margin:2em;
@@ -82,7 +91,7 @@ a.ast {
 }
 .navigation a:hover {
 	font-size:1.3em;
-	color:green;
+	color:#306F71;
 	text-decoration:none;
 }
 
