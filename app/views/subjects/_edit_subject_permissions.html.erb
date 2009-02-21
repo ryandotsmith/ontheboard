@@ -1,9 +1,9 @@
 <ul class='form'>
-<% form_remote_tag :url  => { :action => 'update' }, 
-		  		   :html => { :id => 'update_permissions' },
-		    	   :method => :put,
-		 		   :subject => subject do%>		
-		
+<% form_remote_tag  :method 	=> 'put',
+					:url 		=> { :action => 'update' },
+					:html		=> { :id  =>  'update_permissions'},
+					:subject 	=> subject do %>		
+
 		<%= hidden_field_tag :update_type, :permissions %>
 		<%= render :partial => 'users/search_for_user'%>
 		

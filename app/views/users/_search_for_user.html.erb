@@ -1,8 +1,2 @@
-<%= text_field_with_auto_complete :user, :login, 
-							{ :autocomplete => 'off',
-							  :value => "" },
-							{ :method => :get,
-							  :url    => search_user_url,
-							  :param_name   => 'search'} %>
-
-
+<%= text_field_tag :login, nil, :autocomplete => 'off',
+						        :id	=> 'user_search'	%>

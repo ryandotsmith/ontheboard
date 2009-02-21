@@ -13,8 +13,8 @@
 	<tr>
 		<td><%= user %></td>
 		<td><%= "x" if permissions.include?('read')%></td>
-		<td><%= "x" if permissions.include?('write')%></td>
 		<td><%= "x" if permissions.include?('execute')%></td>
+		<td><%= "x" if permissions.include?('write')%></td>
 	</tr>
 	<% end %>
 </table>

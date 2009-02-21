@@ -6,13 +6,15 @@
 <table>
 <td>user</td>
 <td>read</td>
-<td>write</td>
 <td>execute</td>
+<td>write</td>
+
 <% board.list_permissions.each do |user,permissions| %>
 <tr>
 	<td><%= user %></td>
 	<td><%= "x" if permissions.include?('read')%></td>
-	<td><%= "x" if permissions.include?('write')%></td>
 	<td><%= "x" if permissions.include?('execute')%></td>
+	<td><%= "x" if permissions.include?('write')%></td>
+
 <% end %>
 </table>

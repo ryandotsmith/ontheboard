@@ -5,8 +5,9 @@ class Board < ActiveRecord::Base
   belongs_to :user
   has_many :subjects
   acts_as_url :title
-  before_save :has_unique_title?
+  #before_save :has_unique_title?
   ####################
+  
   ####################
   #has_unique_title should get
   #=>
@@ -67,7 +68,7 @@ class Board < ActiveRecord::Base
         return :epoch_fail
       end
     when :permissions
-      working_user = User.find_by_login( params[:user][:login] )
+      working_user = User.find_by_login( params[:login] )
       access_level = params[:level].to_sym
       begin
         allow!( working_user, access_level)

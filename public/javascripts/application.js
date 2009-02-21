@@ -1,2 +1,8 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
+$(document).ready(function() {
+
+    $("input#user_search").autocomplete("auto_complete_for_user_login")
+	
+//	$("#update_permissions").submitWithAjax();
+	
+});
+//end document

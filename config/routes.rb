@@ -20,12 +20,24 @@ ActionController::Routing::Routes.draw do |map|
  #map.resources :pages
  #map.resources :subjects, :only =>  [ :new, :create, :destroy ]
  #map.resources :tallies
+ map.board_auto_complete ':user_name/:board_url/auto_complete_for_user_login', 
+ :controller    => 'users',
+ :requirements  => { :action => 'auto_complete_for_user_login' },
+ :conditions    => { :method => :get }
+
+ map.subject_auto_complete ':user_name/:board_url/:subject_name/auto_complete_for_user_login', 
+ :controller    => 'users',
+ :requirements  => { :action => 'auto_complete_for_user_login' },
+ :conditions    => { :method => :get }
+
  map.search_user '/search',
  :controller  => 'users', 
  :action      => 'search',
  :conditions  => {:method => :get}
- map.user_page   '/:user_name',                  :controller => 'pages',  :action => 'show' 
 
+ map.user_page   '/:user_name',                  
+ :controller => 'pages',  
+ :action => 'show' 
  map.user_board  '/:user_name/:board_url',       
  :controller => 'boards', 
  :action => 'show',   
@@ -34,10 +46,10 @@ ActionController::Routing::Routes.draw do |map|
  :controller => 'boards', 
  :action => 'edit',   
  :conditions => { :method => :get }
- map.update_board'/:user_name/:board_url',       
- :controller => 'boards', 
- :action => 'update', 
- :conditions => { :method => :put }
+ map.update_board'/:user_name/:board_url/edit',       
+ :controller  => 'boards', 
+ :action      => 'update',
+ :conditions   => { :method => :put }
  map.update_board_permissions '/:user_name/:board_url/update_board_permissions',
   :controller   =>  'boards',
   :action       =>  'update_board_permissions'

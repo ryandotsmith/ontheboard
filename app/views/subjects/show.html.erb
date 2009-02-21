@@ -2,9 +2,9 @@
 	<div class="navigation">
 		<% if current_user.can(:write, @subject)%>
 			<%= link_to 'Edit this subject', 
-			edit_subject_url(	:user_name => @subject.board.user.login,
-						:subject_name => @subject.url,
-						:board_url => @subject.board.url) %> 			
+			edit_subject_url(	:user_name    => @subject.board.user.login,
+								:subject_name => @subject.url,
+								:board_url    => @subject.board.url) %> 			
 		<% end %>
 	</div><!--end navigation-->
 

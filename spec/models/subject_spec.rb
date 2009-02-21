@@ -35,7 +35,15 @@ describe "Building a new subject on a board" do
     @subject.inherit_permissions!
     @subject.is_public.should eql( false )
   end
-    
+  
+  it "should inherit the boards owner." do
+    @user = Factory( :user )
+    @board.subjects << @subject
+    @board.accepts_role :owner, @user
+    @subject.accepts_role?(:owner, @user).should eql( false )
+    @subject.inherit_owner!
+    @subject.accepts_role?(:owner, @user).should eql( true )
+  end
 
   
 end# end describe
@@ -204,6 +212,16 @@ describe "Authorizing a user to act on subject" do
 
 end#des
 
+describe "Changeing permissions on the subject." do
+  before(:each) do
+    @board    = Factory( :board )
+    @subject  = Factory( :subject)
+    @owner    = Factory( :user )
+    
+  end
+  
+end
+
 describe "getting users who have tallied on subject" do
   
   before(:each) do 
@@ -236,8 +254,7 @@ describe "update hooks " do
 
   it "should recieve a string describing the type of update" do
     params = {:update_type => 'permissions', :user => {:login => "#{@user.login}"}, :level => :read}
-    @subject.update_hooks( params ).should eql( :permissions )
+    @subject.update_hooks( params ).should eql( [:permissions,""] )
   end#it
+
 end#des
-
-

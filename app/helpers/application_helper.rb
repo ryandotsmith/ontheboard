@@ -8,8 +8,13 @@ module ApplicationHelper
   # and should return
   #=>
   def get_css
-    ['std','form','list']
+    ['std','form','list','jquery.autocomplete']
   end
-  
+  def get_js
+    [ :defaults, 
+      'autocomplete/jquery.autocomplete.js',
+      'autocomplete/jquery.autocomplete.min.js',
+      'autocomplete/jquery.autocomplete.pack.js']
+  end
 
 end

@@ -69,21 +69,21 @@ class BoardsController < ApplicationController
   def update
     @board = Board.find_from( params )    
     #this will rename the url with the updated title
+    debugger
     respond_to do |format|
       if @board.update_attributes(params[:board]) 
         update_type = @board.update_hooks( params )
         case update_type
-          when :general
-          
           when :permissions
-            format.js { render :action => 'update_board_permissions.js'}
+            format.js { render :action => 'update_board_permissions.rjs'}
           when :epoch_fail
-            format.js { render :action => 'epoch_fail.js'}
-        end#case
+            format.js { render :action => 'epoch_fail.rjs'}
+          end#case
         format.html { redirect_to user_board_url( :user_name => @user.login,
                                                   :board_url => @board.url)}
       else# board was not updated
-        format.html { render :action => "edit" }
+       format.html { render :action => "edit" }
+       format.js { render :action => 'epoch_fail.rjs'}
       end#do
     end#if
   end#def

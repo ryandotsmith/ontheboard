@@ -3,9 +3,7 @@
 </div><!--end left-->
 <div id="right">
 	<div class="navigation">
-		<h3>Grant User Permission</h3>
-		<%= render :partial => 'edit_subject_permissions', 
-				   :locals  => { :subject => @subject }%>
+
 	</div><!--end navigation-->
 </div><!--end right-->
 <div id="center">
@@ -17,12 +15,17 @@
 				:locals => { :subject => @subject, :options => @nav_options }%>
 
 	<div id="general" class="page_object">
-	   <%= render :partial => 'edit_subject_permissions', :locals => {:subject => @subject}%>
+	   <%= render :partial => 'edit_subject_title', :locals => {:subject => @subject}%>
 	</div><!--end general-->
 
 	<div id="permissions" class="page_object">
-			<%= render  :partial => 'show_subject_permissions',
-						:locals  => { :subject => @subject }%>	
+			<%= render :partial => 'edit_subject_permissions', 
+					   :locals  => { :subject => @subject }%>
+			<div id="show_permissions">
+				<%= render  :partial => 'show_subject_permissions',
+							:locals  => { :subject => @subject }%>	
+				
+			</div><!--end show_permissions-->
 	</div><!--end permissions-->
 
 </div><!--end center-->

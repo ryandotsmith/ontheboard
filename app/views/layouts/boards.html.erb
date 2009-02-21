@@ -9,8 +9,9 @@
 	<% get_css.each do |tag|%>
 		<%=	stylesheet_link_tag "#{tag}"%>
 	<% end %>
-
-  <%= javascript_include_tag :defaults %>
+	<% get_js.each do |tag|%>
+		<%= javascript_include_tag tag %>
+	<% end %>
 
 </head>
 <body>

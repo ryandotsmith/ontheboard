@@ -42,6 +42,7 @@ class SubjectsController < ApplicationController
     @subject = @board.subjects.build(params[:subject])
     respond_to do |format|
       if @subject.save
+        @subject.inherit_owner!
         @subject.allow!(current_user,:write) unless @subject.inherits
         flash[:notice] = 'Subject was successfully created.'
         format.html { redirect_to user_board_url( :user_name => @board.user.login, 
@@ -57,13 +58,14 @@ class SubjectsController < ApplicationController
   def update
     @subject = Subject.find_from( params )
     respond_to do |format|
+    debugger
     if @subject.update_attributes(params[:subject])
-        update_type = @subject.update_hooks( params )
+        update_type , message = @subject.update_hooks( params )
         case update_type
           when :permissions
             format.js   {render :action => 'update_subject_permissions.rjs'}
           when :epoch_fail
-            format.js   {render :action => 'epoch_fail.rjs'}
+            format.js { render :js => " alert( '#{ message }' )"}
         end#case
         format.html { redirect_to user_board_url( :user_name => @board.user.login, 
                                                   :board_url => @board.url) }
