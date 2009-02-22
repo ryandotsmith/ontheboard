@@ -1,35 +1,37 @@
 <div id="left">
+	<div id="tb1" class="tool_box">
+		<%= link_to "Back to Board"%>
+	</div><!--end tb1-->
+
+	<div id="tb2" class="tool_box">			
+	</div><!--end tb2-->
 	
 </div><!--end left-->
-<div id="right">
-	
-</div><!--end right-->
 <div id="center">
-	<h1> 
-		<%= link_to "#{@board.user.login}", user_page_url(:user_name => @board.user.login)%> : 
-
-		<%= link_to "#{@board.title}", user_board_url(	:user_name => @board.user.login, 
-														:board_url => @board.url) %> :
-		New subject
-	</h1>
-	<h2>{ <%= @board.description %> }</h2>
-	<ul class="form">
-	<% form_for([@board,@subject],	:url => { :board_url	=> @board.url,
-											  :user_name	=> @board.user.login }, 
-									:html => {:class => 'user_form'}) do |f| %>
-	  <%= f.error_messages %>
-		<li>
-	    <%= f.label :title %>
-	    <%= f.text_field :title %>
-		</li>
-		<li>
-		<%= f.label "Inherit Permissions" %>
-		<%= f.check_box :inherits %>
-		</li>
-		<li>
-	    <%= f.submit "Create" %>
-		</li>
-	<% end %>
-	</ul>
+	<div id="navigation">
+		<%= render :partial => 'navigation', :locals => { :subject => @subject , :options => @nav_options }%>
+	</div><!--end navigation-->
+	<div id="main">
+		<h2>{ <%= @board.description %> }</h2>
+		<ul class="form">
+		<% form_for([@board,@subject],	:url => { :board_url	=> @board.url,
+												  :user_name	=> @board.user.login }, 
+										:html => {:class => 'user_form'}) do |f| %>
+		  <%= f.error_messages %>
+			<li>
+		    <%= f.label :title %>
+		    <%= f.text_field :title %>
+			</li>
+			<li>
+			<%= f.label "Inherit Permissions" %>
+			<%= f.check_box :inherits %>
+			</li>
+			<li>
+		    <%= f.submit "Create" %>
+			</li>
+		<% end %>
+		</ul>
+		
+	</div><!--end main-->
 </div><!--end center-->
 

@@ -1,4 +1,3 @@
-<h1> 
 <ul class="lavaLampBottomStyle" id="user_nav">
 	<li><%= link_to "#{board.user.login}", user_page_url(:user_name => board.user.login)%>  </li>
 	<% options ||= nil %>
@@ -7,7 +6,5 @@
 			<li><%= option %></li>
 		<% end %>
 	<%end %>
-</h1>
 </ul>
 
-<h2>{ <%= board.description %> }</h2>

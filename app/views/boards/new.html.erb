@@ -1,33 +1,36 @@
 <div id="left">
 	
 </div><!--end left-->
-<div id="right">
-	
-</div><!--end right-->
 <div id="center">
-	<h1>Create a new board</h1>
-	<ul class="form">
-	<% form_for([@user,@board], :html => {:class => 'user_form'}) do |f| %>
-	  <%= f.error_messages %>
-		<li>
-	    <%= f.label :title %><br />
-	    <%= f.text_field :title %>
-		</li>
-		<li>
-	    <%= f.label :description %><br />
-	    <%= f.text_field :description %>
-		</li>
-		<li>
-	    <%= f.label 'Make Board Public?' %><br />
-	    <%= f.check_box :is_public %>
-		</li>
-		<li>
-	    <%= f.submit "Create" %>
-		</li>
-		<li class="cancel">
-		<%= link_to "Cancel", user_page_url(@user.login)%>
-		</li>
+	<div id="navigation">
 		
-	<% end %>
-	</ul>
+	</div><!--end navigation-->
+	<div id="main">
+		<h1>Create a new board</h1>
+		<ul class="form">
+		<% form_for([@user,@board], :html => {:class => 'user_form'}) do |f| %>
+		  <%= f.error_messages %>
+			<li>
+		    <%= f.label :title %><br />
+		    <%= f.text_field :title %>
+			</li>
+			<li>
+		    <%= f.label :description %><br />
+		    <%= f.text_field :description %>
+			</li>
+			<li>
+		    <%= f.label 'Make Board Public?' %><br />
+		    <%= f.check_box :is_public %>
+			</li>
+			<li>
+		    <%= f.submit "Create" %>
+			</li>
+			<li class="cancel">
+			<%= link_to "Cancel", user_page_url(@user.login)%>
+			</li>
+
+		<% end %>
+		</ul>
+		
+	</div><!--end main-->
 </div><!--end center-->

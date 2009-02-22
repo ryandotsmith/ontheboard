@@ -1,31 +1,30 @@
 <div id="left">
-	
+	<div id="tb1" class="tool_box">
+		
+	</div><!--end tb1-->
 </div><!--end left-->
-<div id="right">
-	<div class="navigation">
-
-	</div><!--end navigation-->
-</div><!--end right-->
 <div id="center">
 
-	<% @nav_options << "#{ link_to @subject.title, show_subject_path }"%>
-	<% @nav_options <<  ': edit' %>
-	
-	<%= render :partial => 'navigation', 
-				:locals => { :subject => @subject, :options => @nav_options }%>
+	<div id="navigation">
+		<% @nav_options << "#{ link_to @subject.title, show_subject_path }"%>
+		<% @nav_options <<  ': edit' %>
 
-	<div id="general" class="page_object">
-	   <%= render :partial => 'edit_subject_title', :locals => {:subject => @subject}%>
-	</div><!--end general-->
+		<%= render :partial => 'navigation', 
+					:locals => { :subject => @subject, :options => @nav_options }%>		
+	</div><!--end navigation-->
 
-	<div id="permissions" class="page_object">
-			<%= render :partial => 'edit_subject_permissions', 
-					   :locals  => { :subject => @subject }%>
-			<div id="show_permissions">
-				<%= render  :partial => 'show_subject_permissions',
-							:locals  => { :subject => @subject }%>	
-				
-			</div><!--end show_permissions-->
-	</div><!--end permissions-->
+	<div id="main">
+		<div id="edit_subject">
+		   	<%= render 	:partial => 'edit_subject_title', 
+						:locals => {:subject => @subject}%>
+
+			<%= render 	:partial => 'edit_subject_permissions', 
+					   	:locals  => { :subject => @subject }%>
+			<h3><a href="#">Show permissions</a></h3>
+			<%= render  :partial => 'show_subject_permissions',
+						:locals  => { :subject => @subject }%>	
+			
+		</div><!--end edit_subject-->
+	</div><!--end main-->
 
 </div><!--end center-->

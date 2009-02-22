@@ -1,4 +1,4 @@
-page.replace_html 'show_permissions',  :partial  => 'show_subject_permissions', 
+page.replace_html 'show_subject_permissions',  :partial  => 'show_subject_permissions', 
                                   :locals   => { :subject => @subject }
-page.visual_effect :highlight, 'permissions'                                 
 page[:update_permissions].reset
+page << "$('#edit_subject').accordion('activate',2)"

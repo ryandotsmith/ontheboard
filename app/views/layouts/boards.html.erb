@@ -5,6 +5,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Boards: <%= controller.action_name %></title>
+
 	<!-- look in the application helper for get_css -->
 	<% get_css.each do |tag|%>
 		<%=	stylesheet_link_tag "#{tag}"%>
@@ -15,18 +16,20 @@
 
 </head>
 <body>
-	
-	<div id="container">
-		<div id="header">
-			<%= render :partial => 'users/user_bar' %>
-		</div>
 
+	<div id="header">
+		<img id="logo" src='/images/ontheboard_logo.png'></img>
+		<%= render :partial => 'users/user_bar' %>
+	</div>
+
+	<div id="content">
 		<div id="info_bar" >
 			<%= flash[:notice]%>
 			<%= flash[:warning]%>
 		</div>
-		<%= yield  %>
-	</div>
+		<%= yield  %>		
+	</div><!--end content-->
+
 	<div id="footer" style="text-align:center;"></div>
 </body>
 </html>

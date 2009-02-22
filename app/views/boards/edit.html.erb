@@ -1,27 +1,29 @@
 <div id="left">
+	<div id="tb1" class="tool_box">
+	</div><!--end tb1-->
+
+	<div id="tb2" class="tool_box">			
+	</div><!--end tb2-->
 	
 </div><!--end left-->
 
-<div id="right">
-
-	<div class="navigation">
-	</div><!--end navigation-->
-
-</div><!--end right-->
-
-
 <div id="center">
-	<% @nav_options << "#{ link_to @board.title, user_board_path }"%>
-	<% @nav_options << ": edit"%>
-	<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
-	<div id="general" class="page_object">
-		<%= render :partial	=>	'edit_board_title', :locals => { :board => @board} %>
-	</div><!--end general-->
-	<div id="permissions" class="page_object">
-		<%= render :partial => 'edit_board_permissions', :locals => { :board => @board } %>
-		<div id="show_permissions">
-		<%= render :partial => 'show_board_permissions', :locals => { :board => @board }%>	
-		</div><!--end show_permissions-->
-	</div><!--end permissions-->
+	<div id="navigation">
+		<% @nav_options << "#{ link_to @board.title, user_board_path }"%>
+		<% @nav_options << ": edit"%>
+		<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
+	</div><!--end navigation-->
+	<div id="main">
+		<div id="general" class="page_object">
+			<%= render :partial	=>	'edit_board_title', :locals => { :board => @board} %>
+		</div><!--end general-->
+		<div id="permissions" class="page_object">
+			<%= render :partial => 'edit_board_permissions', :locals => { :board => @board } %>
+			<div id="show_permissions">
+			<%= render :partial => 'show_board_permissions', :locals => { :board => @board }%>	
+			</div><!--end show_permissions-->
+		</div><!--end permissions-->
+	</div><!--end main-->
 
 </div><!--end center-->
+

@@ -1,8 +1,9 @@
 $(document).ready(function() {
 
     $("input#user_search").autocomplete("auto_complete_for_user_login");
+	$('#navigation').corners();
 	$('#user_bar').corners();
-	$('#center').corners("10px");
+	$('#main').corners("10px");
 	$('#left').corners("10px");
 
 	$("#user_nav").lavaLamp({
@@ -15,5 +16,12 @@ $(document).ready(function() {
         }
     });
 	
+	$('#edit_subject').accordion({
+				header: "h3",
+				animated: 'easeslide',
+				autoHeight: false
+	});
+
+
 });
 //end document

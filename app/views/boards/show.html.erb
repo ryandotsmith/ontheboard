@@ -1,31 +1,36 @@
 <div id="left">
-	<div class="navigation">
+	<div id="tb1" class="tool_box">
 		<% if current_user.can(:write, @board)%>
 		<%= link_to 'Edit this board', edit_board_url( :user_name => @board.user.login,
 													   :board_url => @board.url) %> 			
-
 		<%= link_to "Add a subject",   new_subject_url() %>	
 		<% end %>
-	</div><!--end navigation-->
-</div><!--end left-->
-  
-<div id="right">
-</div><!--end right-->
-<div id="center">
-	<% @nav_options << ": #{@board.title}" %>
-	<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
+	</div><!--end tb1-->
 
-	<h3>Your Board Subjects </h3>
-	<div id="subjects" class="page_object">
-		<ul class="board_list">
-			<% @board.subjects.each do |subject|%>
-				<% if current_user.can(:read, subject )%>
-					<%= render :partial => '/subjects/subject_line', 
-			           		   :locals  => {  :board   => @board,
-						       :subject => subject   }%>
+	<div id="tb2" class="tool_box">			
+	</div><!--end tb2-->
+
+</div><!--end left-->
+
+<div id="center">
+
+	<div id="navigation">
+		<% @nav_options << ": #{@board.title}" %>
+		<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
+	</div><!--end navigation-->
+
+	<div id="main">
+		<h2>{ <%= @board.description %> }</h2>
+		<div id="subjects" class="page_object">
+			<ul class="board_list">
+				<% @board.subjects.each do |subject|%>
+					<% if current_user.can(:read, subject )%>
+						<%= render :partial => '/subjects/subject_line', 
+				           		   :locals  => {  :board   => @board,
+							       :subject => subject   }%>
+					<% end %>
 				<% end %>
-			<% end %>
-		</ul>
-	</div><!--end boards-->
-	
+			</ul>
+		</div><!--end boards-->
+	</div><!--end main-->
 </div><!--end center-->

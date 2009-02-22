@@ -1,21 +1,24 @@
 <div id="left">
-	<% if @page.user == current_user %>
-	<div class="navigation">
+	<div id="tb1" class="tool_box">
+		<% if @page.user == current_user %>
 		<%= link_to "Create a new board.",new_board_url%>
-	</div><!--end navigation-->
-	<% end %>
-</div><!--end left-->
-
-<div id="right">
-	
+		<% end %>		
+	</div><!--end tb1-->
+	<div id="tb2"class="tool_box">		
+	</div><!--end tb2-->
 </div><!--end left-->
 
 <div id="center">
-	<% if @page.user == current_user %>
-		<%= render :partial => 'users_boards',  :locals => {:page => @page}%>
-		<%= render :partial => 'users_tallies', :locals => {:page => @page}%>
-	<% else %>
-		<%= render :partial => 'others_boards',  :locals => {:page => @page}%>
-		<%= render :partial => 'others_tallies', :locals => {:page => @page}%>
-	<% end %>
-</div><!--end left-->
+	<div id="navigation">
+		
+	</div><!--end navigation-->
+	<div id="main">
+		<% if @page.user == current_user %>
+			<%= render :partial => 'users_boards',  :locals => {:page => @page}%>
+			<%= render :partial => 'users_tallies', :locals => {:page => @page}%>
+		<% else %>
+			<%= render :partial => 'others_boards',  :locals => {:page => @page}%>
+			<%= render :partial => 'others_tallies', :locals => {:page => @page}%>
+		<% end %>		
+	</div><!--end main-->
+</div><!--end center-->

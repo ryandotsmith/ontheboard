@@ -15,12 +15,11 @@
 
 </head>
 <body>
-	<!---->
-	<div id="container">
-		<div id="header">
-			<%= render :partial => 'users/user_bar' %>
-		</div>
-
+	<div id="header">
+		<img id="logo" src='/images/ontheboard_logo.png' href="/"></img>
+		<%= render :partial => 'users/user_bar' %>
+	</div>
+	<div id="content">
 		<div id="info_bar" >
 			<%= flash[:notice]%>
 			<%= flash[:warning]%>
