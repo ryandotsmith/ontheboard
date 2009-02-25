@@ -24,13 +24,14 @@
 	border: 2px inset blue;
 }
 .user_form input[type=submit] {
-	background-color: green;
-	border: 3px outset white;
-	width:16em ;
-	padding: 7px;
-
+	background-color: #2C2C28;
+	border: 1px solid white;
+	width:8em ;
+	height:2em;
+	text-align:left;
+	padding:8px;
 	color: white;
 }
 .user_form input[type=submit]:hover {
-	border: 3px outset #1e1c77;
+	color:green;
 }

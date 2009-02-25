@@ -1,20 +1,22 @@
-<% if board.is_public %>
-	<p><a class="ast">*</a><h3 class="tips">This board is public</h3></p>
-<% else %>
-	<p><a class="ast">*</a><h3 class="tips">This board is private</h3></p>
-<% end %>
-<table>
-<td>user</td>
-<td>read</td>
-<td>execute</td>
-<td>write</td>
+<div id="show_board_permissions">
+	<% if board.is_public %>
+		<p><a class="ast">*</a><h1 class="tips">This board is public</h1></p>
+	<% else %>
+		<p><a class="ast">*</a><h1 class="tips">This board is private</h1></p>
+	<% end %>
+	<table>
+	<td>user</td>
+	<td>read</td>
+	<td>execute</td>
+	<td>write</td>
 
-<% board.list_permissions.each do |user,permissions| %>
-<tr>
-	<td><%= user %></td>
-	<td><%= "x" if permissions.include?('read')%></td>
-	<td><%= "x" if permissions.include?('execute')%></td>
-	<td><%= "x" if permissions.include?('write')%></td>
+	<% board.list_permissions.each do |user,permissions| %>
+	<tr>
+		<td><%= user %></td>
+		<td><%= "x" if permissions.include?('read')%></td>
+		<td><%= "x" if permissions.include?('execute')%></td>
+		<td><%= "x" if permissions.include?('write')%></td>
 
-<% end %>
-</table>
+	<% end %>
+	</table>	
+</div><!--end show_board_permissions-->

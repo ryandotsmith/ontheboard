@@ -1,5 +1,6 @@
 <div id="left">
 	<div id="tb1" class="tool_box">
+		<%= link_to "Back to your Boards", user_board_path %>
 	</div><!--end tb1-->
 
 	<div id="tb2" class="tool_box">			
@@ -13,17 +14,16 @@
 		<% @nav_options << ": edit"%>
 		<%= render :partial => 'navigation', :locals => { :board => @board, :options => @nav_options }%>
 	</div><!--end navigation-->
+	
 	<div id="main">
-		<div id="general" class="page_object">
+		<div id="edit_board">
+			<h3><a href="#">Edit Title</a></h3>
 			<%= render :partial	=>	'edit_board_title', :locals => { :board => @board} %>
-		</div><!--end general-->
-		<div id="permissions" class="page_object">
+			<h3><a href="#">Edit Permissions</a></h3>
 			<%= render :partial => 'edit_board_permissions', :locals => { :board => @board } %>
-			<div id="show_permissions">
+			<h3><a href="#">Show permissions</a></h3>
 			<%= render :partial => 'show_board_permissions', :locals => { :board => @board }%>	
-			</div><!--end show_permissions-->
-		</div><!--end permissions-->
+		</div><!--end edit_board-->
 	</div><!--end main-->
-
 </div><!--end center-->
 

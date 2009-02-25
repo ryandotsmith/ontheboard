@@ -244,3 +244,41 @@ describe "A board should have unique title w.r.t. the user" do
     @board1.has_unique_title?.should eql( true )    
   end
 end
+
+describe "changing the title of a board" do
+  before(:each) do
+    @owner    = Factory( :user, :name => "Ron Arbuckle")
+    @other_u  = Factory( :user, :name => "Jim Jackson" )
+    @board    = Factory( :board, :user_id => @owner.id, :is_public => false, :title => "nifty") 
+    @board1   = Factory( :board, :user_id => @other_u.id, :is_public => false, :title => "nifty")
+  end#before
+  
+  it "should not allow two boards with the same name under one user account" do
+    @board1.title.should eql( "nifty")
+    @board1.url.should eql( "nifty")
+    #since this user already has a board named nifty, 
+    # we should hope that the url that gets generated from another board named
+    # nift will not be nift. In stead it should be something like nifty-1.
+    #However, before a new board is created or updated, the title should be 
+    # unique to the user. So theoretically this url business should never happen.
+    # But, i tested for it anyways! 
+    @board2 = Factory(:board, :user_id => @other_u.id, :title => 'nifty')
+    @board2.url.should_not eql( "nifty")
+  end
+  
+  it "should be ok with same board names under diff user accounts" do
+    @board.url.should eql( 'nifty')
+    # some random user should be able to create a board named "nifty"
+    # whith the url named nifty since the scoping should take place at the user level. 
+    @board3 = Factory( :board, :user_id => 998, :title => 'nifty')
+    @board3.url.should eql( "nifty")
+    
+  end
+
+  it "should update the url with the new title " do
+    @board.title = "a new title"
+    @board.save!
+    @board.url.should eql( "a-new-title")
+  end#it
+
+end#des

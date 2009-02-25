@@ -1,6 +1,7 @@
 body {
 	background-color:#B1E7D0;
 	font-family:helvetica;	
+	margin:0;
 }
 #logo {
 	position:absolute;
@@ -21,16 +22,15 @@ a.ast {
 	float:left;
 }
 #content {
-	margin-top:10em;
 	min-height:30em;
 	background-color: #B1E7D0;
 	color: #333;
 	line-height: 130%;
 }
 #header {
-	position:absolute;
 	top:0;
 	right:0;
+	margin:0;
 	width:100%;
 	height:7em;
 	background-color:#2C2C28;

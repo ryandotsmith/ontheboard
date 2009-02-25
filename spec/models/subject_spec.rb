@@ -258,3 +258,35 @@ describe "update hooks " do
   end#it
 
 end#des
+
+describe "changin the title of a subject" do
+  before(:each) do
+    @user       =   Factory( :user, :id => 12, :login => "whatman"    )
+    @board      =   Factory( :board   )
+    @subject    =   Factory( :subject , :board_id => @board.id ,:title => 'eh')
+    @board.subjects << @subject
+  end#do
+  
+  it "should not allow two subjects with same url" do
+    @subject1 = Factory( :subject, :board_id => @board.id, :title => 'eh')
+    @subject1.save!
+    @subject1.url.should_not eql('eh')
+    @subject1.url.should eql('eh-1')
+  end
+
+  it "should allow two subjects with same name if subject belong to diff boards" do
+    @another_board = Factory( :board, :id => 8345)
+    @another_subject = Factory( :subject, :board_id => 8345, :title => 'eh' )
+    @subject.url.should eql('eh')
+    @another_subject.url.should eql('eh')
+  end
+
+  it "should update url upon change of title" do
+    @subject.url.should eql('eh')
+    @subject.title = "who ha"
+    @subject.save!
+    @subject.url.should eql('who-ha')
+    
+  end
+
+end

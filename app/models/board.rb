@@ -4,7 +4,7 @@ class Board < ActiveRecord::Base
   acts_as_authorizable
   belongs_to :user
   has_many :subjects
-  acts_as_url :title
+  acts_as_url :title, :scope => :user_id, :sync_url => true 
   #before_save :has_unique_title?
   ####################
   

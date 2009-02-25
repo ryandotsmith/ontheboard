@@ -21,6 +21,11 @@ $(document).ready(function() {
 				animated: 'easeslide',
 				autoHeight: false
 	});
+	$('#edit_board').accordion({
+				header: "h3",
+				animated: 'easeslide',
+				autoHeight: false
+	});
 
 
 });

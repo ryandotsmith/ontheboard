@@ -1,11 +1,14 @@
 class Subject < ActiveRecord::Base
   belongs_to  :board
   has_many    :tallies
-  acts_as_url :title
+  acts_as_url :title, :scope => :board_id, :sync_url => true
   acts_as_authorizable
   
   def to_param
      url
+  end
+  def set_url( new_url )
+    self.url = new.to_url
   end
   ####################
   #update_hooks( params ) 
@@ -21,6 +24,9 @@ class Subject < ActiveRecord::Base
     case params[:update_type].to_sym
       when :general
         return :general , message
+      when :title
+        set_url(params[:subject][:title])
+        return :title
       when :permissions
         #user_login = params[:login] unless params[:login]
         working_user = User.find_by_login( params[:login] )
