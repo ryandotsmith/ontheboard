@@ -32,10 +32,15 @@ class BoardsController < ApplicationController
 
   def show
     @board  = Board.find_from( params )
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @board }
-    end
+    unless @board.nil?
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml  { render :xml => @board }
+      end#do
+    else
+      redirect_to "/404.html"
+    end#unless
+
   end
 
   def new
@@ -69,7 +74,6 @@ class BoardsController < ApplicationController
   def update
     @board = Board.find_from( params )    
     #this will rename the url with the updated title
-    debugger
     respond_to do |format|
       if @board.update_attributes(params[:board]) 
         update_type = @board.update_hooks( params )
@@ -96,6 +100,10 @@ class BoardsController < ApplicationController
       format.xml  { head :ok }
     end# end do 
   end#end method 
+
+
+
+
 protected
   ####################
   #load_user should get

@@ -34,7 +34,9 @@ class TalliesController < ApplicationController
   end
 
   def create
-    @tally = @subject.tallies.build(params[:tally])
+#    @tally = @subject.tallies.build(params[:tally])
+    factory = TallyFactory.new
+    @tally = factory.build_tally( params )
     #@tally.user_id = User.find_by_login( current_user ).id || -1
     respond_to do |format|
       if @tally.save

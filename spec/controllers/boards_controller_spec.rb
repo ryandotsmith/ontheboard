@@ -104,17 +104,18 @@ describe BoardsController do
         build_params = {"id" => 1, "user_id" => 1, "title" => "my-board","url" => "my-board"}
         @user.should_receive(:boards).and_return(@board)
         @board.should_receive(:build).with( build_params ).and_return(@board)
-        @board.should_receive(:allow!).with(@user,:write).and_return( true )
+        @board.should_receive(:make_owner!).with(@user).and_return( true )
         @board.should_receive(:save).and_return(true)
         @user.should_receive(:login).and_return("ryan")
         post :create, :board => build_params
         assigns(:board).should equal(mock_board)
       end#end it
+      
       it "should redirect to the created board" do
         build_params = {"id" => 1, "user_id" => 1, "title" => "my-board","url" => "my-board"}
         @user.should_receive(:boards).and_return(@board)
         @board.should_receive(:build).with({}).and_return(@board)
-        @board.should_receive(:allow!).with(@user,:write).and_return( true )
+        @board.should_receive(:make_owner!).with(@user).and_return( true )
         @board.should_receive(:save).and_return(true)
         @user.should_receive(:login).and_return("ryan")
         post :create, :board => {}
